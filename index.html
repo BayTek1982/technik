@@ -19,14 +19,14 @@
 <style>
 :root{
   --bg:#05080d; --panel:#0b1118; --card:#0f1620; --card2:#0a0f15; --line:#1b2532; --line2:#2a3647; --line3:#36465b; --text:#dfe6ef; --soft:#b9c4d2; --soft2:#c9d2de; --mute:#7f8b9c;
-  --up:#1fcf8f; --down:#f0605d; --gold:#f5c542; --blue:#4c9aff; --purple:#b388ff; --orange:#ff9f43;
+  --up:#1fcf8f; --down:#f0605d; --gold:#f5c542; --blue:#4c9aff; --purple:#b388ff; --orange:#ff9f43; --aqua:#22d3ee; --pink:#ff6fae; --lime:#a3e635;
   --chart:#020407; --hdr:rgba(5,8,13,.92); --veil:rgba(5,8,13,.75); --on-gold:#1b1505; --on-up:#03140d;
   --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
   --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
 }
 [data-theme="light"]{
   --bg:#f3f5f9; --panel:#eef2f7; --card:#ffffff; --card2:#f7f9fc; --line:#dde3ec; --line2:#c9d2de; --line3:#b7c2d1; --text:#131a26; --soft:#3d4757; --soft2:#2c3646; --mute:#5d6879;
-  --up:#087f5b; --down:#c62f2c; --gold:#946200; --blue:#1a66c9; --purple:#7445cc; --orange:#b45000;
+  --up:#087f5b; --down:#c62f2c; --gold:#946200; --blue:#1a66c9; --purple:#7445cc; --orange:#b45000; --aqua:#00838f; --pink:#c2185b; --lime:#4d7c0f;
   --chart:#ffffff; --hdr:rgba(243,245,249,.92); --veil:rgba(255,255,255,.85); --on-gold:#ffffff; --on-up:#ffffff;
 }
 *{box-sizing:border-box}
@@ -182,12 +182,12 @@ const THEMES={
  dark:{bg:'#020407',grid:'#111a24',axis:'#6f7b8c',text:'#e6ecf3',mute:'#7f8b9c',line:'#1b2532',line2:'#2a3647',
   up:'#1fcf8f',down:'#f0605d',gold:'#f5c542',blue:'#4c9aff',purple:'#b388ff',orange:'#ff9f43',aqua:'#22d3ee',pink:'#ff6fae',
   pillBg:'rgba(2,4,7,.9)',metal:'#9aa7b8',metal2:'#6b7889',metal3:'#4a5565',metalHi:'#d5dde8',block:'#121a24',blockLine:'#3a4859',head:'#18222e',
-  air:'#4c9aff',fuel:'#22d3ee',fire:'#ff7a1a',fire2:'#ffd23f',exhaust:'#8b95a3',oil:'#f5a623',water:'#38bdf8',hot:'#f0605d',cold:'#4c9aff',
+  lime:'#a3e635',air:'#4c9aff',fuel:'#22d3ee',fire:'#ff7a1a',fire2:'#ffd23f',exhaust:'#8b95a3',oil:'#f5a623',water:'#38bdf8',hot:'#f0605d',cold:'#4c9aff',
   carBody:'#141d28',carLine:'#5b6b80',road:'#0d141c',roadLine:'#3a4859',batt:'#1fcf8f',outline:'#020407',glass:'rgba(76,154,255,.15)'},
  light:{bg:'#ffffff',grid:'#eef1f5',axis:'#5d6879',text:'#131a26',mute:'#5d6879',line:'#dde3ec',line2:'#c9d2de',
   up:'#087f5b',down:'#c62f2c',gold:'#946200',blue:'#1a66c9',purple:'#7445cc',orange:'#b45000',aqua:'#00838f',pink:'#c2185b',
   pillBg:'rgba(255,255,255,.95)',metal:'#8793a3',metal2:'#5f6b7b',metal3:'#465160',metalHi:'#c4ccd7',block:'#eef2f7',blockLine:'#8a96a8',head:'#e2e8f0',
-  air:'#1a66c9',fuel:'#00838f',fire:'#e8590c',fire2:'#f59f00',exhaust:'#6b7280',oil:'#b45000',water:'#0284c7',hot:'#c62f2c',cold:'#1a66c9',
+  lime:'#4d7c0f',air:'#1a66c9',fuel:'#00838f',fire:'#e8590c',fire2:'#f59f00',exhaust:'#6b7280',oil:'#b45000',water:'#0284c7',hot:'#c62f2c',cold:'#1a66c9',
   carBody:'#f1f4f8',carLine:'#7d8899',road:'#e9edf2',roadLine:'#b7c2d1',batt:'#087f5b',outline:'#ffffff',glass:'rgba(26,102,201,.1)'}};
 const C=Object.assign({},THEMES.dark);
 function setCanvasTheme(t){Object.assign(C,THEMES[t]||THEMES.dark);}
@@ -1175,6 +1175,748 @@ les({id:'reichweite',cat:'akku',title:'Reichweite & Verbrauch',sub:'Selbst ausre
  bedeutung:'Anders als beim Verbrenner ist ein E-Auto in der Stadt besonders sparsam und auf der schnellen Autobahn am durstigsten.',
  tipp:'Die WLTP-Reichweite ist ein Normwert. Realistisch: Sommer etwa 80–90 %, Winter auf der Autobahn eher 60–70 % davon.'}});
 
+/* ---------- FAHRWERK & BREMSEN ---------- */
+CATS.fahrwerk='Fahrwerk & Bremsen';
+les({id:'bremse',cat:'fahrwerk',title:'Scheibenbremse & Hydraulik',sub:'Vom Pedal bis zur Bremsscheibe',
+ steps:S([[4800,'Tritt man aufs Bremspedal, drückt ein kleiner Kolben im Hauptbremszylinder auf die Bremsflüssigkeit.'],
+ [4800,'Flüssigkeit lässt sich nicht zusammendrücken. Der Druck breitet sich über die Bremsleitungen zu allen vier Rädern aus.'],
+ [5200,'Im Bremssattel drückt die Flüssigkeit auf einen großen Kolben. Er presst die Bremsbeläge von beiden Seiten an die Bremsscheibe.'],
+ [4800,'Reibung macht aus Bewegungsenergie Wärme. Bei einer starken Bremsung kann die Scheibe über 500 °C heiß werden.'],
+ [6200,'Rechenbeispiel: 50 bar Druck auf 20 cm² Kolbenfläche. 1 bar = 10 N/cm² → 50 × 10 × 20 = 10.000 N Anpresskraft.']]),
+ draw(g,st){const{s,p,t}=st;const press=s===0?ease(clamp(p*2)):1;
+  // Pedal
+  const piv=[44,40],ang=rad(lerp(100,82,press));const fx=piv[0]+Math.cos(ang)*110,fy=piv[1]+Math.sin(ang)*110;
+  line(g,piv[0],piv[1],fx,fy,C.metal,5);box(g,fx-14,fy-4,26,10,C.metal2,C.metal,3);circ(g,piv[0],piv[1],5,C.metalHi);
+  const rodY=96,rx=piv[0]+Math.cos(ang)*56;line(g,rx,rodY,78+press*14,rodY,C.metal2,3);
+  // Hauptbremszylinder
+  box(g,78,rodY-14,72,28,C.head,C.blockLine,4);g.fillStyle=hexA(C.gold,.35);g.fillRect(96+press*14,rodY-11,52-press*14,22);box(g,82+press*14,rodY-11,14,22,C.metal,null,2);
+  pill(g,114,rodY-28,'HAUPTBREMSZYLINDER',C.text,ap(st,0));pill(g,40,206,'PEDAL',C.text,1);
+  // Leitung
+  const L=[[150,rodY],[230,rodY],[230,125],[262,125]];pipe(g,L,hexA(C.gold,.45),6);
+  if(s>=1)flow(g,L,t,C.gold,{gap:10,speed:.04,r:2,a:s===1?1:.5});
+  if(s>=1){pill(g,200,150,'DRUCK ÜBERALL GLEICH',C.gold,ap(st,1)*(s===1?1:0));}
+  // Bremsscheibe (Seitenansicht)
+  const dx=308,dy=125,dh=160;const glow=s>=3?(s===3?ease(p):1):0;
+  box(g,dx-6,dy-dh/2,12,dh,glow?hexA(C.hot,.25+.5*glow):C.metal3,glow?C.hot:C.metal,2);
+  g.save();g.beginPath();g.rect(dx-6,dy-dh/2,12,dh);g.clip();for(let k=0;k<12;k++){const yy=dy-dh/2+((k*16+t*.15)%(dh+16))-8;line(g,dx-6,yy,dx+6,yy,hexA(C.metalHi,.4),1);}g.restore();
+  line(g,dx,dy+dh/2,dx,dy+dh/2+14,C.metal2,6);
+  // Bremssattel
+  const a2=ap(st,2),gap=s>=2?2:7;box(g,dx-40,dy-36,80,72,hexA(C.down,.18),C.down,8,1.6);g.fillStyle=C.bg;g.fillRect(dx-10,dy-36,20,72);
+  box(g,dx-6-gap-8,dy-26,8,52,C.orange,null,2);box(g,dx+6+gap,dy-26,8,52,C.orange,null,2);
+  box(g,dx-36,dy-20,18-gap+4,40,C.metal,C.metal3,3);
+  pill(g,dx,dy-52,'BREMSSATTEL',C.down,1);pill(g,dx,dy+dh/2+28>240?236:dy+dh/2+28,'SCHEIBE',C.text,1);
+  tag(g,dx-12,dy+20,232,200,'BELÄGE',C.orange,a2);
+  if(s===3)pill(g,370,30,`${Math.round(lerp(80,550,ease(p)))} °C`,C.hot,1,'right');
+  if(s===4){pill(g,200,22,'50 bar × 10 × 20 cm² = 10.000 N',C.gold,1);pill(g,200,46,'≈ 1 TONNE PRO KOLBEN',C.up,1);}}
+ ,box:{was:'Die Scheibenbremse ist die häufigste Bremse im Auto. Sie arbeitet hydraulisch: Bremsflüssigkeit überträgt die Kraft vom Pedal auf die Bremsbeläge.',h2:'So funktioniert’s',
+ erkennen:['Pedal → Hauptbremszylinder → Leitungen → Bremssattel','Kleiner Kolben am Pedal, großer Kolben am Rad','Beläge reiben auf der Scheibe → Wärme','Bremskraftverstärker hilft beim Treten'],
+ bedeutung:'Durch die unterschiedlichen Kolbengrößen wird die Fußkraft vervielfacht. So reicht ein normaler Tritt, um ein 2-Tonnen-Auto zu stoppen.',
+ tipp:'Bremsflüssigkeit zieht Wasser an und sollte etwa alle 2 Jahre gewechselt werden. Mit Wasser darin kann sie bei heißen Bremsen Dampfblasen bilden – dann fällt das Pedal durch.'}});
+
+les({id:'abs',cat:'fahrwerk',title:'ABS',sub:'Bremsen, ohne dass die Räder blockieren',
+ steps:S([[5200,'Bei einer Vollbremsung ohne ABS kann ein Rad blockieren: Es steht still, während das Auto weiterrutscht. Ein blockiertes Rad lässt sich nicht lenken.'],
+ [4600,'Raddrehzahlsensoren messen ständig, wie schnell sich jedes Rad dreht.'],
+ [5600,'Droht ein Rad zu blockieren, senkt das ABS kurz den Bremsdruck an genau diesem Rad – und erhöht ihn sofort wieder.'],
+ [5000,'Das passiert viele Male pro Sekunde. Man spürt es als Rattern im Bremspedal.'],
+ [5600,'Ergebnis: Das Auto bleibt lenkbar und bremst trotzdem fast maximal. Bei ABS-Rattern: Pedal voll durchtreten und weiter lenken!']]),
+ draw(g,st){const{s,p}=st;const x0=58,w=320,yA=118,hA=90,yB=222,hB=70;
+  axes(g,x0,yA,w,hA,'','TEMPO',[], [[.5,'50'],[1,'100']]);axes(g,x0,yB,w,hB,'ZEIT','BREMSDRUCK',[],[]);
+  const veh=u=>1-u*.85;const abs=s>=2;
+  const wheel=u=>{if(!abs){return u<.08?veh(u):Math.max(0,veh(.08)-(u-.08)*9);}const v=veh(u);return Math.max(0,v-(.05+.12*Math.max(0,Math.sin(u*70))))};
+  const pr=u=>{if(!abs)return u<.05?u/.05:1;return u<.05?u/.05:.6+.32*Math.cos(u*70+1.2);};
+  const up=s===0||s===2?ease(p):1;
+  plot(g,veh,x0,yA,w,hA,C.mute,2,up);plot(g,wheel,x0,yA,w,hA,abs?C.up:C.down,2.4,s===1?1:up);plot(g,pr,x0,yB,w,hB,C.gold,2.2,s===1?1:up);
+  pill(g,x0+w-4,yA-hA-2,'AUTO',C.mute,1,'right');pill(g,x0+w-60,yA-hA-2,'RAD',abs?C.up:C.down,1,'right');
+  if(!abs&&up>.3)pill(g,x0+.4*w,yA-12,'RAD BLOCKIERT → RUTSCHT',C.down,1);
+  if(s===1){circ(g,218,190,14,C.metal3,C.metal,1.4);for(let k=0;k<12;k++){const a=k*TAU/12+st.t*.004;circ(g,218+Math.cos(a)*18,190+Math.sin(a)*18,1.6,C.gold);}pill(g,x0+.5*w,yA-hA+20,'SENSOR MISST RADDREHZAHL',C.gold,1);}
+  if(s>=2)pill(g,x0+.55*w,yB-hB+6,s===3?'DRUCK AUF – AB – AUF …':'ABS REGELT',C.gold,1);
+  if(s===4)pill(g,x0+.5*w,yA-hA+20,'BLEIBT LENKBAR ✓',C.up,1);}
+ ,box:{was:'Das Antiblockiersystem (ABS) verhindert, dass beim Bremsen ein Rad blockiert. So bleibt das Auto auch bei einer Vollbremsung lenkbar.',h2:'So funktioniert’s',
+ erkennen:['Raddrehzahlsensor an jedem Rad','Hydraulikeinheit kann den Druck pro Rad regeln','Pedal rattert, wenn ABS arbeitet','ABS-Warnleuchte bei Störung'],
+ bedeutung:'Ein rollender Reifen überträgt mehr Kraft als ein rutschender – und nur er kann lenken. ABS ist seit 2004 in jedem Neuwagen in der EU Pflicht.',
+ tipp:'Notbremsung mit ABS: Kupplung und Bremse voll durchtreten, Pedal nicht lösen, um das Hindernis herum lenken. Das Rattern ist normal!'}});
+
+les({id:'esp',cat:'fahrwerk',title:'ESP / DSC',sub:'Schleudern verhindern durch gezieltes Bremsen',
+ steps:S([[5000,'ESP (bei BMW heißt es DSC) vergleicht ständig: Wohin will der Fahrer lenken – und wohin fährt das Auto wirklich?'],
+ [4800,'Übersteuern: Das Heck bricht aus, das Auto dreht sich zu stark in die Kurve hinein.'],
+ [5600,'Gegenmittel: ESP bremst gezielt das kurvenäußere Vorderrad. Das dreht das Auto zurück und fängt es ein.'],
+ [5600,'Untersteuern: Das Auto schiebt über die Vorderräder geradeaus. Dann bremst ESP das kurveninnere Hinterrad.'],
+ [5600,'Dafür misst es Lenkwinkel, Drehung um die Hochachse (Gierrate), Querbeschleunigung und alle Raddrehzahlen – viele Male pro Sekunde.']]),
+ draw(g,st){const{s,p,t}=st;const cx=40,cy=250,Rm=185;
+  g.save();g.strokeStyle=C.road;g.lineWidth=70;g.beginPath();g.arc(cx,cy,Rm,-Math.PI/2,0);g.stroke();g.restore();
+  g.save();g.strokeStyle=C.roadLine;g.setLineDash([8,8]);g.lineWidth=1.4;g.beginPath();g.arc(cx,cy,Rm,-Math.PI/2,0);g.stroke();g.restore();
+  const ang=-Math.PI/2+.42*Math.PI/2+ (s===0?p*.3:0);const X=cx+Math.cos(ang)*Rm,Y=cy+Math.sin(ang)*Rm;const head=ang+Math.PI/2;
+  let yaw=0,brake=-1,col=C.text;
+  if(s===1){yaw=ease(p)*.6;col=C.down;}if(s===2){yaw=.6*(1-ease(p));brake=1;col=yaw>.2?C.down:C.up;}
+  if(s===3){yaw=-ease(clamp(p*2))*.45*(p<.5?1:1-ease((p-.5)*2));brake=p>.3?2:-1;col=C.orange;}
+  // gewünschte Bahn
+  g.save();g.strokeStyle=hexA(C.up,.8);g.lineWidth=2;g.setLineDash([5,4]);g.beginPath();g.arc(cx,cy,Rm,ang,ang+.5);g.stroke();g.restore();
+  // tatsächliche Richtung
+  const dir=head+yaw*1.3;if(s>=1&&s<=3)arrow(g,X,Y,X+Math.cos(dir)*70,Y+Math.sin(dir)*70,col,2.4);
+  const wc=[C.metal3,C.metal3,C.metal3,C.metal3];if(brake>=0&&Math.sin(t*.03)>-.3)wc[brake]=C.down;
+  // Reihenfolge carTop: [-L*.3,-W/2](hinten links),[-L*.3,W/2],[L*.3,-W/2](vorne links),[L*.3,W/2]
+  const wc2=[wc[2],wc[3],wc[0],wc[1]];// mappe: 0=vorne außen? s.u.
+  const map=[C.metal3,C.metal3,C.metal3,C.metal3];if(brake===1&&Math.sin(t*.03)>-.3)map[2]=C.down;if(brake===2&&Math.sin(t*.03)>-.3)map[1]=C.down;
+  carTop(g,X,Y,56,32,head+yaw,{wheelCol:map});
+  if(s===1)pill(g,300,40,'ÜBERSTEUERN',C.down,1);if(s===2)pill(g,300,40,'BREMST VORNE AUSSEN',C.down,1);if(s===3)pill(g,300,40,'UNTERSTEUERN → HINTEN INNEN',C.orange,1);
+  if(s===0){pill(g,300,40,'FAHRERWUNSCH',C.up,1);}
+  if(s===4){['LENKWINKEL','GIERRATE','QUERBESCHL.','RADDREHZAHLEN'].forEach((w2,i)=>pill(g,392,40+i*26,w2,C.gold,1,'right'));}
+  pill(g,300,236,'KURVE',C.mute,s===0?1:0);}
+ ,box:{was:'Das Elektronische Stabilitätsprogramm (ESP, bei BMW DSC) verhindert Schleudern. Es bremst einzelne Räder gezielt ab und nimmt bei Bedarf Motorleistung weg.',h2:'So funktioniert’s',
+ erkennen:['Übersteuern: Heck kommt → Vorderrad außen bremsen','Untersteuern: schiebt geradeaus → Hinterrad innen bremsen','Blinkende Warnleuchte = ESP greift gerade ein','Baut auf ABS-Bauteilen auf'],
+ bedeutung:'ESP gilt nach dem Gurt als eines der wichtigsten Sicherheitssysteme überhaupt und ist in der EU seit 2014 für alle Neuwagen Pflicht.',
+ tipp:'ESP kann die Physik nicht aushebeln: Ist man viel zu schnell in der Kurve, hilft auch das beste System nicht mehr. Und mit „DSC OFF“ ist das Sicherheitsnetz weg!'}});
+
+les({id:'federung',cat:'fahrwerk',title:'Federung & Dämpfer',sub:'Feder fängt ab, Dämpfer beruhigt',
+ steps:S([[5000,'Die Feder fängt Stöße von der Straße ab: Fährt das Rad über eine Bodenwelle, wird sie zusammengedrückt.'],
+ [6000,'Ohne Dämpfer würde die Karosserie danach lange nachschwingen – wie auf einem Trampolin.'],
+ [5200,'Der Stoßdämpfer bremst diese Schwingung: Öl wird durch kleine Ventile gepresst und die Bewegung in Wärme umgewandelt.'],
+ [6000,'Mit Dämpfer beruhigt sich das Auto nach ein bis zwei Schwingungen. Die Reifen bleiben fest auf der Straße.'],
+ [5600,'Kaputte Dämpfer verlängern den Bremsweg und machen das Auto schwammig. Test: Eine Ecke kräftig runterdrücken – schwingt es mehrfach nach, ist der Dämpfer hinüber.']]),
+ draw(g,st){const{s,p,T}=st;const damped=s>=2;
+  const tt=s===0?T/1000:T/1000;const bump=x=>x>0&&x<.6?Math.sin(x/.6*Math.PI)*16:0;
+  const tb=(tt*1.1)%3.2;const wheelUp=bump(tb);const k=6.5,z=damped?.45:.04;
+  const resp=u=>{u=u-.3;if(u<0)return 0;return 16*Math.exp(-z*k*u)*Math.sin(k*Math.sqrt(1-z*z)*u)*.9;};
+  const bodyUp=s===0?wheelUp*.6:resp(tb)+wheelUp*.3;
+  // Straße
+  g.fillStyle=C.road;g.fillRect(10,212,180,30);const bx=100-(tb*120-40);g.fillStyle=C.roadLine;g.beginPath();g.ellipse(bx,212,36,wheelUp>0||1?14:0,0,Math.PI,0);g.fill();
+  const wy=190-wheelUp,by=70-bodyUp;
+  circ(g,100,wy,22,C.metal3,C.metal,2);circ(g,100,wy,10,C.metal2);
+  box(g,30,by-26,140,40,C.carBody,C.carLine,8,1.6);pill(g,100,by-6,'KAROSSERIE',C.text,1);
+  // Feder
+  g.strokeStyle=s===0?C.gold:C.up;g.lineWidth=2.2;g.beginPath();for(let i=0;i<=12;i++){const y=lerp(by+14,wy-22,i/12);g.lineTo(70+(i%2?12:-12),y);}g.stroke();
+  // Dämpfer
+  const a2=ap(st,2);g.save();g.globalAlpha=damped?1:.25;box(g,122,by+14,16,(wy-22-(by+14))*.55,C.metal2,C.metal,3);line(g,130,by+14+(wy-22-(by+14))*.55,130,wy-22,C.metalHi,3);g.restore();
+  pill(g,40,150,'FEDER',C.up,1);pill(g,165,150,damped?'DÄMPFER':'KEIN DÄMPFER',damped?C.purple:C.down,s>=1?1:0);
+  // Diagramm
+  const x0=212,y0=125,w=176,h=80;line(g,x0,y0,x0+w,y0,C.axis,1);if(!G.nolabel){txt(g,x0,y0-h-10,'KAROSSERIE-BEWEGUNG',C.mute,9,'left');txt(g,x0+w,y0+h+10,'ZEIT',C.mute,9,'right');}
+  if(s>=1){plot(g,u=>{const uu=u*3.2;const r=(uu-.3)<0?0:16*Math.exp(-.04*k*(uu-.3))*Math.sin(k*(uu-.3))*.9;return r/18;},x0,y0,w,h,C.down,2,1,damped?.35:1);}
+  if(damped)plot(g,u=>resp(u*3.2)/18,x0,y0,w,h,C.up,2.4,s===2?ease(p):1);
+  if(s>=1){const X=x0+tb/3.2*w;line(g,X,y0-h,X,y0+h,C.text,1,[3,3]);}
+  pill(g,x0+w,y0+h-6,damped?'MIT DÄMPFER':'OHNE DÄMPFER',damped?C.up:C.down,s>=1?1:0,'right');}
+ ,box:{was:'Federn und Stoßdämpfer verbinden die Räder mit der Karosserie. Die Feder trägt das Auto und fängt Stöße ab, der Dämpfer stoppt das Nachschwingen.',h2:'So funktioniert’s',
+ erkennen:['Feder: Stahlschraube (oder Luftfeder)','Dämpfer: Zylinder mit Öl und Ventilen','Feder speichert Energie, Dämpfer vernichtet sie','Adaptive Dämpfer passen sich elektronisch an'],
+ bedeutung:'Ein gutes Fahrwerk sorgt für Komfort UND Sicherheit: Nur ein Reifen, der Bodenkontakt hat, kann bremsen und lenken.',
+ tipp:'Ölspuren am Dämpfer sind ein Warnzeichen. Dämpfer immer achsweise (links und rechts zusammen) tauschen.'}});
+
+les({id:'lenkung',cat:'fahrwerk',title:'Die Lenkung',sub:'Zahnstange, Servo und Ackermann',
+ steps:S([[4600,'Dreht man am Lenkrad, dreht sich unten an der Lenksäule ein kleines Zahnrad – das Ritzel.'],
+ [4600,'Das Ritzel greift in eine Zahnstange und schiebt sie nach links oder rechts.'],
+ [4600,'Über Spurstangen schwenkt die Zahnstange die Vorderräder.'],
+ [5200,'Ein Elektromotor hilft beim Lenken (elektrische Servolenkung): beim Einparken stark, bei hohem Tempo weniger.'],
+ [5800,'In der Kurve schwenkt das innere Rad stärker ein als das äußere (Ackermann-Prinzip). So rollen beide Räder sauber auf ihrem eigenen Kreis.']]),
+ draw(g,st){const{s,p,t}=st;const sw=s===0?Math.sin(t*.002)*1.2:Math.sin(t*.0016)*1.3;const rack=sw*16;
+  // Lenkrad
+  g.save();g.translate(200,58);g.rotate(sw);circ(g,0,0,30,null,C.text,4);line(g,-30,0,30,0,C.text,3);line(g,0,0,0,30,C.text,3);g.restore();
+  line(g,200,88,200,140,C.metal2,5);pill(g,250,40,'LENKRAD',C.text,1,'left');
+  // Zahnstange
+  const a1=ap(st,1);box(g,120+rack,146,160,10,C.metal3,s===1?C.gold:C.metal,2);g.save();g.strokeStyle=C.metal;g.lineWidth=1;for(let x=130;x<270;x+=6){g.beginPath();g.moveTo(x+rack,146);g.lineTo(x+rack,150);g.stroke();}g.restore();
+  gear(g,200,138,10,9,-sw*3,s===0?hexA(C.gold,.4):C.head,s===0?C.gold:C.metal,{depth:2.5,hub:false});
+  pill(g,200,175,'ZAHNSTANGE',C.text,a1);tag(g,208,132,280,112,'RITZEL',C.gold,ap(st,0));
+  // Räder
+  const base=-rack/16*.38;const ack=s===4?1:0;const L=base>0?base*(1+.25*ack):base*(1-.18*ack),R=base>0?base*(1-.18*ack):base*(1+.25*ack);
+  const wheel=(x,a)=>{g.save();g.translate(x,151);g.rotate(a);box(g,-10,-26,20,52,C.metal3,C.metal,4,1.6);g.restore();};
+  const a2=ap(st,2);g.save();g.globalAlpha=Math.max(.3,a2);line(g,120+rack,151,62+Math.sin(L)*0,151+0,C.metal,3);line(g,280+rack,151,338,151,C.metal,3);g.restore();
+  wheel(52,L);wheel(348,R);pill(g,52,200,'RAD',C.text,1);pill(g,348,200,'RAD',C.text,1);pill(g,92,124,'SPURSTANGE',C.metal,a2*(s===2?1:0));
+  if(s===3){box(g,250,160,30,22,hexA(C.up,.3),C.up,4);pill(g,265,196,'E-MOTOR HILFT',C.up,1);}
+  if(s===4){pill(g,52,232,`${deN(Math.abs(L*57.3),0)}°`,C.gold,1);pill(g,348,232,`${deN(Math.abs(R*57.3),0)}°`,C.gold,1);pill(g,200,232,'INNEN STÄRKER',C.gold,1);}}
+ ,box:{was:'Die Zahnstangenlenkung setzt die Drehung des Lenkrads in eine Seitwärtsbewegung um, die die Vorderräder schwenkt.',h2:'So funktioniert’s',
+ erkennen:['Lenkrad → Lenksäule → Ritzel → Zahnstange','Spurstangen verbinden Zahnstange und Räder','Servolenkung: Elektromotor unterstützt','Ackermann: inneres Rad stärker eingeschlagen'],
+ bedeutung:'Die Servolenkung macht das Lenken leicht. Elektrische Servolenkungen ermöglichen außerdem Assistenzsysteme wie Spurhalten oder automatisches Einparken.',
+ tipp:'Zieht das Auto bei gerader Straße zu einer Seite oder läuft das Lenkrad schief, sollte die Spur (Achsvermessung) geprüft werden – das schont auch die Reifen.'}});
+
+les({id:'reifen',cat:'fahrwerk',title:'Reifen richtig lesen',sub:'Was 225/45 R18 95W bedeutet',
+ steps:S([[4400,'Auf jeder Reifenflanke steht ein Code, zum Beispiel 225/45 R18 95W.'],
+ [4400,'225 = Reifenbreite in Millimetern.'],
+ [5200,'45 = Flankenhöhe in Prozent der Breite: 225 × 0,45 ≈ 101 mm.'],
+ [4800,'R = Radialreifen (Bauart), 18 = Felgendurchmesser in Zoll (1 Zoll = 2,54 cm → 45,7 cm).'],
+ [5400,'95 = Tragfähigkeit: 690 kg pro Reifen. W = zulässig bis 270 km/h.'],
+ [5600,'Profiltiefe: gesetzlich mindestens 1,6 mm. Empfohlen werden im Sommer 3 mm und im Winter 4 mm.']]),
+ draw(g,st){const{s,p}=st;
+  const parts=[['225',C.blue,1],['/',C.mute,-1],['45',C.orange,2],[' R',C.purple,3],['18',C.purple,3],[' 95',C.up,4],['W',C.down,4]];
+  if(!G.nolabel){g.font=`800 26px ${MONO}`;let x=200-g.measureText('225/45 R18 95W').width/2;parts.forEach(([tx,c,k])=>{const on=s===0||s===k;g.fillStyle=on?c:hexA(C.mute,.35);g.textAlign='left';g.textBaseline='middle';g.fillText(tx,x,28);x+=g.measureText(tx).width;});}
+  if(s<5){// Querschnitt
+   const cx=200,base=212,tw=150,sh=68,rimR=70;
+   g.fillStyle=C.metal3;g.fillRect(cx-tw/2+8,base-14,tw-16,24);if(!G.nolabel)txt(g,cx,base-2,'FELGE',C.metalHi,10);
+   g.fillStyle=C.carBody;g.strokeStyle=C.metal;g.lineWidth=2;g.beginPath();g.moveTo(cx-tw/2+8,base-14);g.quadraticCurveTo(cx-tw/2-6,base-14-sh/2,cx-tw/2+4,base-14-sh);g.lineTo(cx+tw/2-4,base-14-sh);g.quadraticCurveTo(cx+tw/2+6,base-14-sh/2,cx+tw/2-8,base-14);g.closePath();g.fill();g.stroke();
+   for(let x=cx-tw/2+12;x<cx+tw/2-10;x+=14)box(g,x,base-14-sh-6,9,8,C.metal2,null,1);
+   const a1=ap(st,1);if(a1){arrow(g,cx-tw/2,base-14-sh-22,cx+tw/2,base-14-sh-22,C.blue,1.6,a1,true);pill(g,cx,base-14-sh-36,'225 mm',C.blue,a1);}
+   const a2=ap(st,2);if(a2){arrow(g,cx+tw/2+18,base-14,cx+tw/2+18,base-14-sh,C.orange,1.6,a2,true);pill(g,cx+tw/2+56,base-14-sh/2,'≈ 101 mm',C.orange,a2);}
+   const a3=ap(st,3);if(a3){arrow(g,cx-tw/2-24,base+10,cx-tw/2-24,base-14,C.purple,1.6,a3);pill(g,cx-tw/2-50,base-30,'18″ FELGE',C.purple,a3);}
+   if(s===4){pill(g,90,72,'95 → 690 kg',C.up,1);pill(g,310,72,'W → 270 km/h',C.down,1);}}
+  else{const f=ease(p);const x0=60,w=280,y=150;for(let i=0;i<6;i++)box(g,x0+i*48,y-60,36,60,C.metal2,C.metal,3);
+   g.fillStyle=C.carBody;g.fillRect(x0-10,y,w+30,40);
+   const dep=lerp(8,1.6,f);g.fillStyle=hexA(dep<3?C.down:C.up,.25);g.fillRect(x0+36,y-60,12,60);
+   line(g,x0+42,y-60*dep/8,x0+42,y,dep<3?C.down:C.up,3);pill(g,200,206,`PROFIL: ${deN(dep,1)} mm`,dep<1.7?C.down:dep<3?C.gold:C.up,1);
+   pill(g,90,236,'MIN. 1,6 mm',C.down,1);pill(g,310,236,'EMPF. 3–4 mm',C.up,1);}}
+ ,box:{was:'Der Reifencode auf der Flanke verrät Größe, Bauart, Tragfähigkeit und Höchstgeschwindigkeit eines Reifens.',h2:'So liest du ihn',
+ erkennen:['<b>225</b> Breite in mm · <b>45</b> Flanke in % der Breite','<b>R</b> Radialreifen · <b>18</b> Felge in Zoll','<b>95</b> Tragfähigkeitsindex (690 kg)','<b>W</b> Geschwindigkeitsindex (270 km/h)'],
+ bedeutung:'Nur Reifen mit passender Größe und ausreichendem Last- und Geschwindigkeitsindex sind erlaubt – das steht in der Zulassungsbescheinigung.',
+ tipp:'Die DOT-Nummer verrät das Alter: „2524“ heißt 25. Woche 2024. Reifen älter als etwa 8 Jahre werden hart, auch wenn noch viel Profil drauf ist.'}});
+
+/* ---------- ELEKTRIK & ELEKTRONIK ---------- */
+CATS.elektrik='Elektrik & Elektronik';
+function battery12(g,x,y,col){box(g,x,y,56,36,hexA(col,.18),col,5,1.6);box(g,x+8,y-6,10,6,C.down,null,1);box(g,x+38,y-6,10,6,C.metal,null,1);if(!G.nolabel){txt(g,x+13,y+10,'+',C.down,11);txt(g,x+43,y+10,'–',C.text,11);txt(g,x+28,y+25,'12 V',col,10);}}
+les({id:'lima',cat:'elektrik',title:'Anlasser & Lichtmaschine',sub:'Motor starten und Strom erzeugen',
+ steps:S([[5200,'Der Anlasser (Starter) ist ein kräftiger Elektromotor. Beim Starten greift sein kleines Ritzel in den Zahnkranz am Schwungrad und dreht den Motor an.'],
+ [4600,'Dafür braucht er kurz sehr viel Strom aus der Batterie – oft weit über 100 Ampere.'],
+ [4800,'Läuft der Motor, treibt er über den Keilrippenriemen die Lichtmaschine an.'],
+ [5400,'Die Lichtmaschine ist ein Generator: Sie versorgt alle Verbraucher mit Strom und lädt die Batterie wieder auf – mit etwa 14 Volt.'],
+ [5200,'Start-Stopp-Autos haben dafür besonders robuste Anlasser und Batterien (AGM oder EFB), weil sie viel öfter starten.']]),
+ draw(g,st){const{s,p,t}=st;const run=s>=2;const crank=s<2?(s===0?ease(p)*t*.002:t*.004):t*.01;
+  // Schwungrad + Anlasser
+  gear(g,95,118,58,40,crank,C.head,C.metal,{depth:3,mark:C.gold});circ(g,95,118,20,C.metal3,C.metal);
+  const eng=s<2?1:clamp(1-(s===2?p*3:1));const sx=95+64*Math.cos(-.55),sy=118+64*Math.sin(-.55);
+  const px=lerp(sx+16,sx,eng),py=lerp(sy-10,sy,eng);
+  box(g,px+8,py-40,44,30,C.head,s<2?C.orange:C.blockLine,5,1.6);line(g,px+12,py-12,px,py,C.metal2,4);
+  gear(g,px,py,9,9,-crank*58/9,s<2?hexA(C.orange,.4):C.head,s<2?C.orange:C.metal,{depth:2.4,hub:false});
+  pill(g,px+30,py-54,'ANLASSER',C.orange,1);pill(g,70,200,'SCHWUNGRAD',C.text,1);
+  // Batterie
+  battery12(g,150,200,C.up);
+  if(s===1){flow(g,[[163,194],[163,176],[px+40,176],[px+40,py-10]],t,C.gold,{gap:6,speed:.1,r:2.6});pill(g,250,236,'> 100 A',C.gold,1);}
+  // Riementrieb rechts
+  const a2=ap(st,2);g.save();g.globalAlpha=Math.max(.25,a2);const P1=[310,182,24],P2=[262,76,15],P3=[360,86,13];
+  g.strokeStyle=C.metal2;g.lineWidth=4;g.setLineDash([6,3]);g.lineDashOffset=-crank*24;g.beginPath();g.moveTo(P1[0]-P1[2],P1[1]);g.lineTo(P2[0]-P2[2],P2[1]);g.arc(P2[0],P2[1],P2[2],Math.PI,-Math.PI/4);g.lineTo(P3[0],P3[1]-P3[2]);g.arc(P3[0],P3[1],P3[2],-Math.PI/2,0);g.lineTo(P1[0]+P1[2],P1[1]);g.arc(P1[0],P1[1],P1[2],0,Math.PI);g.stroke();g.setLineDash([]);
+  [[P1,crank,'KURBELWELLE'],[P2,crank*24/15,'LICHTMASCHINE'],[P3,crank*24/13,'']].forEach(([P,a])=>{circ(g,P[0],P[1],P[2]-3,C.head,C.metal,1.6);line(g,P[0],P[1],P[0]+Math.cos(a)*(P[2]-5),P[1]+Math.sin(a)*(P[2]-5),C.gold,2);});
+  g.restore();pill(g,300,34,'LICHTMASCHINE',s>=3?C.up:C.text,a2);pill(g,310,226,'KURBELWELLE',C.text,a2);pill(g,370,120,'RIEMEN',C.mute,a2*(s===2?1:0));
+  if(s>=3){flow(g,[[248,76],[215,76],[215,172],[163,172],[163,194]],t,C.up,{gap:9,speed:.05,r:2.2});pill(g,215,130,'≈ 14 V',C.up,1);}
+  if(s===4)pill(g,66,236,'AGM-/EFB-BATTERIE',C.gold,1);}
+ ,box:{was:'Der Anlasser startet den Motor, die Lichtmaschine erzeugt danach den Strom fürs Auto. Die 12-V-Batterie ist der Zwischenspeicher.',h2:'So funktioniert’s',
+ erkennen:['Anlasser: E-Motor mit Ritzel, greift in den Zahnkranz','Lichtmaschine: vom Riemen angetrieben','Ladespannung ca. 13,8–14,4 V','Rote Batterie-Leuchte = Lichtmaschine lädt nicht'],
+ bedeutung:'Ohne Lichtmaschine würde das Auto nur so lange fahren, bis die Batterie leer ist. Beim E-Auto übernimmt ein Spannungswandler (DC/DC) diese Aufgabe aus dem Hochvolt-Akku.',
+ tipp:'Leuchtet während der Fahrt die rote Batterie-Lampe: Verbraucher (Sitzheizung, Gebläse) ausschalten und direkt in die Werkstatt – oft ist der Riemen gerissen.'}});
+
+les({id:'bordnetz',cat:'elektrik',title:'Das 12-Volt-Bordnetz',sub:'Sicherungen, Masse und Verbraucher',
+ steps:S([[4800,'Jedes Auto hat ein 12-Volt-Bordnetz mit eigener Batterie – auch E-Autos, zusätzlich zum Hochvolt-Akku.'],
+ [5200,'Plus-Leitungen führen über Sicherungen zu den Verbrauchern: Licht, Radio, Steuergeräte, Fensterheber …'],
+ [5200,'Der Rückweg (Minus, Masse) läuft über die Karosserie aus Metall. Deshalb reicht meist ein Kabel pro Verbraucher.'],
+ [5600,'Sicherungen schützen die Kabel: Fließt zu viel Strom, etwa bei einem Kurzschluss, schmilzt der Draht in der Sicherung und unterbricht den Stromkreis.'],
+ [5600,'Rechnung: Strom = Leistung ÷ Spannung. Ein 60-Watt-Scheinwerfer braucht 60 W ÷ 12 V = 5 A.']]),
+ draw(g,st){const{s,p,t}=st;battery12(g,16,96,C.up);
+  const fx=110;box(g,fx,52,52,148,C.head,C.blockLine,6);if(!G.nolabel)txt(g,fx+26,30,'SICHERUNGEN',C.mute,9,'center',800);
+  const cons=[['LICHT 60 W',C.gold],['RADIO',C.blue],['STEUERGERÄT',C.purple],['FENSTERHEBER',C.orange]];
+  const blown=s===3&&p>.45;
+  line(g,30,96,30,40,C.down,2);line(g,30,40,fx+8,40,C.down,2);line(g,fx+8,40,fx+8,60,C.down,2);
+  cons.forEach(([n,c],i)=>{const y=70+i*34;const bad=blown&&i===3;box(g,fx+12,y-8,28,16,bad?hexA(C.down,.3):hexA(C.gold,.25),bad?C.down:C.gold,3);if(!G.nolabel)txt(g,fx+26,y,bad?'✕':'10A',bad?C.down:C.gold,8,'center',800);
+   line(g,fx+40,y,240,y,C.down,1.6);box(g,240,y-12,110,24,C.head,c,5,1.4);if(!G.nolabel)txt(g,295,y,n,c,9.5,'center',800);
+   const a2=ap(st,2);if(a2){line(g,350,y,370,y,C.text,1.4);line(g,370,y,370,214,hexA(C.text,a2),1.4);}
+   if(s>=1&&!(bad)&&s!==4||s===4&&i===0)flow(g,[[fx+40,y],[240,y]],t,C.gold,{gap:12,speed:.05,r:2,a:ap(st,1)});});
+  const a2=ap(st,2);if(a2){g.save();g.globalAlpha=a2;box(g,20,214,370,12,C.metal3,C.metal,3);g.restore();pill(g,200,236,'MASSE = KAROSSERIE (–)',C.text,a2);line(g,58,132,58,214,hexA(C.text,a2),1.6);}
+  if(s===3){if(p>.2&&p<.45)pill(g,295,174+0,'KURZSCHLUSS!',C.down,1);if(blown)pill(g,200,22,'SICHERUNG DURCHGEBRANNT',C.down,1);}
+  if(s===4)pill(g,200,22,'I = P ÷ U = 60 W ÷ 12 V = 5 A',C.gold,1);}
+ ,box:{was:'Das Bordnetz versorgt alle elektrischen Verbraucher mit 12 Volt. Strom fließt über Plus-Leitungen hin und über die Karosserie (Masse) zurück.',h2:'So funktioniert’s',
+ erkennen:['Batterie → Sicherung → Verbraucher → Masse','Sicherungskasten meist im Fußraum oder Motorraum','Farbe der Sicherung = Stromstärke','Moderne Autos: viele Verbraucher per Steuergerät geschaltet'],
+ bedeutung:'Sicherungen schützen vor Kabelbränden. Eine durchgebrannte Sicherung zeigt: Irgendwo floss zu viel Strom.',
+ tipp:'Nie eine Sicherung durch eine stärkere ersetzen! Brennt die neue gleich wieder durch, liegt ein Fehler vor – ab in die Werkstatt.'}});
+
+les({id:'canbus',cat:'elektrik',title:'CAN-Bus & Steuergeräte',sub:'Das Datennetz im Auto',
+ steps:S([[5000,'Ein modernes Auto hat oft 50 bis über 100 Steuergeräte – kleine Computer für Motor, Getriebe, Bremsen, Airbags, Licht und vieles mehr.'],
+ [5200,'Statt für jede Funktion eigene Kabel zu verlegen, teilen sie sich ein Datennetz: den CAN-Bus – nur zwei verdrillte Leitungen.'],
+ [5600,'Jedes Steuergerät sendet Nachrichten, z. B. „Raddrehzahl = 812 U/min“. Alle hören mit, und wer die Information braucht, nutzt sie.'],
+ [5400,'Wichtige Nachrichten (z. B. vom Airbag) haben Vorrang. Senden zwei gleichzeitig, setzt sich die wichtigere durch.'],
+ [5400,'Ein Gateway verbindet die verschiedenen Netze (CAN, LIN, FlexRay, Ethernet) und schützt das Auto vor Zugriffen von außen.']]),
+ draw(g,st){const{s,p,t}=st;const Y=128;
+  const ecus=[['MOTOR',C.orange,60,1],['GETRIEBE',C.blue,150,1],['ABS',C.down,240,1],['AIRBAG',C.gold,330,1],['LICHT',C.purple,60,-1],['KLIMA',C.aqua,150,-1],['TACHO',C.up,240,-1],['GATEWAY',C.text,330,-1]];
+  const a1=ap(st,1);g.save();g.globalAlpha=Math.max(.15,a1);line(g,20,Y-3,380,Y-3,C.gold,2);line(g,20,Y+3,380,Y+3,C.aqua,2);g.restore();
+  pill(g,200,Y,'CAN-BUS',C.gold,a1*(s===1?1:0));
+  ecus.forEach(([n,c,x,d],i)=>{const a=s===0?clamp(p*3-i*.25):1;if(!a)return;g.save();g.globalAlpha=a;const y=Y+d*62;line(g,x,Y+d*4,x,y-d*14,C.metal,1.4);box(g,x-40,y-14,80,28,C.head,c,6,1.6);if(!G.nolabel)txt(g,x,y,n,c,10,'center',800);g.restore();});
+  if(s>=2){const msg=s===3?((t/2600)%2<1?['AIRBAG: CRASH!',C.gold,330]:['ABS: RAD 812',C.down,240]):['ABS: RAD 812 U/MIN',C.down,240];
+   const f=((t%2600)/2600);const dx=msg[2]+(f<.5?-1:1)*0;const x1=lerp(msg[2],20,f),x2=lerp(msg[2],380,f);
+   circ(g,x1,Y,4,msg[1]);circ(g,x2,Y,4,msg[1]);pill(g,200,22,msg[0],msg[1],1);
+   if(s===2){[60,150].forEach(x=>{if(Math.abs(x1-x)<10)circ(g,x,Y-58,18,null,hexA(C.up,.8),2);});}}
+  if(s===3)pill(g,200,236,'WICHTIGES ZUERST',C.gold,1);
+  if(s===4){box(g,290,Y-76,80,28,null,C.up,6,2.4);pill(g,200,236,'GATEWAY = TÜRSTEHER',C.up,1);}}
+ ,box:{was:'Der CAN-Bus (Controller Area Network) ist das Datennetz im Auto. Über ihn tauschen die Steuergeräte ständig Nachrichten aus.',h2:'So funktioniert’s',
+ erkennen:['Zwei verdrillte Leitungen: CAN-High und CAN-Low','Nachrichten mit Kennung (ID) statt Adresse','Kleinere ID = höhere Priorität','Weitere Netze: LIN (einfach), FlexRay, Ethernet (schnell)'],
+ bedeutung:'Ohne Bus wären Kilometer zusätzlicher Kabel nötig. Viele Funktionen entstehen erst durch Zusammenarbeit: Das ESP braucht z. B. Daten vom Motor, Getriebe und Lenkwinkelsensor.',
+ tipp:'Kabelbaum eines modernen Autos: oft 3 bis 5 km Kabel und 30 bis 60 kg Gewicht. Der CAN-Bus spart davon einen großen Teil.'}});
+
+les({id:'sensoren',cat:'elektrik',title:'Sensoren im Motor',sub:'Die Sinnesorgane des Steuergeräts',
+ steps:S([[4400,'Das Motorsteuergerät verarbeitet hunderte Messwerte pro Sekunde. Hier die wichtigsten Sensoren:'],
+ [5400,'Kurbelwellensensor: zählt die Zähne eines Geberrads. So weiß das Steuergerät genau, wo jeder Kolben steht und wie schnell der Motor dreht.'],
+ [5000,'Luftmassenmesser: misst, wie viel Luft angesaugt wird. Danach richtet sich die Kraftstoffmenge.'],
+ [5400,'Lambdasonde: misst den Restsauerstoff im Abgas. So regelt das Steuergerät das Gemisch exakt auf Lambda = 1.'],
+ [5400,'Klopfsensor: ein „Mikrofon“ am Motorblock. Hört er Klopfen, wird die Zündung etwas später gestellt.']]),
+ draw(g,st){const{s,p,t}=st;
+  pipe(g,[[20,60],[130,60]],hexA(C.air,.3),14);box(g,130,34,110,70,C.block,C.blockLine,8);pipe(g,[[240,60],[385,60]],hexA(C.exhaust,.3),14);
+  for(let i=0;i<4;i++)circ(g,150+i*24,60,8,C.bg,C.blockLine);
+  circ(g,185,112,14,C.metal3,C.metal,1.4);for(let k=0;k<16;k++){if(k===15)continue;const a=k*TAU/16+t*.006;line(g,185+Math.cos(a)*14,112+Math.sin(a)*14,185+Math.cos(a)*18,112+Math.sin(a)*18,C.metal,2);}
+  const pts=[[1,185,136,'KURBELWELLE',C.gold],[2,70,60,'LUFTMASSE',C.blue],[3,310,60,'LAMBDA',C.up],[4,240,94,'KLOPF',C.down]];
+  pts.forEach(([k,x,y,n,c])=>{const on=s===0||s===k;circ(g,x,y,7,on?c:hexA(c,.3),C.bg,2);pill(g,k===4?x+48:x,k===1?y+16:k===4?y:y-24,n,c,on?1:.35);});
+  const x0=40,y0=200,w=340,h=40;line(g,x0,y0,x0+w,y0,C.axis,1);
+  if(s>=1){const fns={1:u=>(Math.floor(u*36)%18===17)?-.2:(Math.sin(u*36*TAU)>0?.8:-.2),
+   2:u=>.2+.6*clamp(u*1.4)*(.8+.2*Math.sin(u*20)),3:u=>.5*Math.sin(u*TAU*4+t*.004),4:u=>(u>.45&&u<.65?Math.sin(u*300)*.8*Math.sin((u-.45)/.2*Math.PI):Math.sin(u*300)*.06)};
+   const cols={1:C.gold,2:C.blue,3:C.up,4:C.down};plot(g,fns[s],x0,y0,w,h,cols[s],1.8,s===1?1:ease(clamp(p*1.5)));
+   const lab={1:'ZAHNLÜCKE = OT-MARKE',2:'MEHR GAS → MEHR LUFT',3:'FETT ↔ MAGER UM λ = 1',4:'KLOPFEN ERKANNT!'}[s];pill(g,x0+w,y0-h-12,lab,cols[s],1,'right');
+   if(s===3){line(g,x0,y0,x0+w,y0,C.mute,1,[4,4]);pill(g,x0+10,y0,'λ = 1',C.mute,1,'left');}}}
+ ,box:{was:'Sensoren messen alles, was das Motorsteuergerät wissen muss: Drehzahl, Kolbenposition, Luftmenge, Temperatur, Abgas und Klopfen.',h2:'So erkennst du sie',
+ erkennen:['<b>Kurbelwellensensor:</b> Drehzahl und OT','<b>Luftmassenmesser:</b> angesaugte Luft','<b>Lambdasonde:</b> Sauerstoff im Abgas','<b>Klopfsensor:</b> Körperschall am Block'],
+ bedeutung:'Nur mit genauen Messwerten kann das Steuergerät Einspritzmenge und Zündzeitpunkt perfekt berechnen. Fällt ein Sensor aus, läuft der Motor oft im Notprogramm.',
+ tipp:'Fällt der Kurbelwellensensor aus, springt der Motor oft gar nicht mehr an – ein häufiger Grund für „Motor dreht, startet aber nicht“.'}});
+
+les({id:'obd',cat:'elektrik',title:'Fehlerspeicher & OBD',sub:'Fehlercodes lesen und verstehen',
+ steps:S([[4800,'Erkennt ein Steuergerät einen Fehler, speichert es einen Fehlercode – zum Beispiel P0301.'],
+ [4600,'Bei abgasrelevanten Fehlern leuchtet die gelbe Motorkontrollleuchte im Kombiinstrument.'],
+ [5200,'Über die OBD-Buchse (meist unter dem Lenkrad) liest die Werkstatt – oder ein günstiger Adapter mit Handy-App – die Codes aus.'],
+ [6000,'Code entschlüsseln: P = Antrieb, 0 = genormter Code, 3 = Zündung, 01 = Zylinder 1. P0301 heißt also: Zündaussetzer in Zylinder 1.'],
+ [5400,'Gelb leuchtend: bald prüfen lassen. Gelb blinkend oder rote Warnung: Leistung wegnehmen, anhalten – es droht ein Schaden.']]),
+ draw(g,st){const{s,p,t}=st;
+  const code=[['P',C.blue,'ANTRIEB'],['0',C.purple,'GENORMT'],['3',C.orange,'ZÜNDUNG'],['01',C.down,'ZYLINDER 1']];
+  if(!G.nolabel){g.font=`800 34px ${MONO}`;let x=200-g.measureText('P0301').width/2;code.forEach(([c,col,n],i)=>{g.fillStyle=s===3&&clamp(p*5-i)<=0?hexA(C.mute,.4):(s>=3?col:C.text);g.textAlign='left';g.textBaseline='middle';const w=g.measureText(c).width;g.fillText(c,x,34);
+   if(s===3&&clamp(p*5-i)>0)pill(g,200,72+i*26,`${c} = ${n}`,col,1);x+=w;});}
+  if(s<3){// Kombiinstrument
+   box(g,40,110,190,110,C.head,C.blockLine,14);circ(g,95,170,40,null,C.line2,3);circ(g,180,170,40,null,C.line2,3);
+   const on=s>=1&&(Math.sin(t*.006)>-.6);g.save();g.translate(137,130);g.globalAlpha=on?1:.15;
+   poly(g,[[-14,-6],[8,-6],[8,-10],[14,-10],[14,8],[-14,8]],null,C.gold,2);line(g,-18,0,-14,0,C.gold,2);g.restore();
+   pill(g,137,236,'MOTORKONTROLLLEUCHTE',C.gold,ap(st,1));
+   const a2=ap(st,2);if(a2){g.save();g.globalAlpha=a2;poly(g,[[268,130],[372,130],[362,170],[278,170]],C.head,C.text,1.6);for(let r=0;r<2;r++)for(let i=0;i<8;i++)circ(g,286+i*10.5+(r?4:0),142+r*16,2.6,C.gold);g.restore();
+    pill(g,320,190,'OBD-BUCHSE',C.text,a2);if(s===2){flow(g,[[320,170],[320,214],[250,214]],t,C.gold,{gap:10,speed:.05});pill(g,320,232,'APP / TESTER',C.up,1);}}}
+  if(s===4){box(g,60,120,120,80,hexA(C.gold,.15),C.gold,8);if(!G.nolabel){txt(g,120,146,'GELB',C.gold,13);txt(g,120,172,'bald prüfen',C.text,10.5,'center',600);}
+   box(g,220,120,120,80,hexA(C.down,.15),C.down,8);if(!G.nolabel){txt(g,280,146,Math.sin(t*.01)>0?'BLINKT/ROT':'',C.down,13);txt(g,280,172,'anhalten!',C.text,10.5,'center',600);}}}
+ ,box:{was:'Der Fehlerspeicher sammelt erkannte Störungen als Codes. Über die genormte OBD-Schnittstelle (On-Board-Diagnose) können sie ausgelesen werden.',h2:'So liest du einen Code',
+ erkennen:['1. Zeichen: P Antrieb, C Fahrwerk, B Karosserie, U Netzwerk','2. Zeichen: 0 = genormt, 1 = herstellerspezifisch','3. Zeichen: Baugruppe (z. B. 3 = Zündung)','Letzte zwei: genaue Fehlerstelle'],
+ bedeutung:'Ein Fehlercode zeigt, WO der Fehler bemerkt wurde – nicht immer, WAS kaputt ist. Ein Zündaussetzer kann an Zündkerze, Zündspule oder Injektor liegen.',
+ tipp:'Ein OBD-Adapter kostet oft nur 20–40 €. Damit kannst du vor dem Werkstattbesuch selbst nachsehen, was los ist. Codes nur löschen, wenn die Ursache behoben ist.'}});
+
+/* ---------- MOTOR (Paket 2) ---------- */
+les({id:'zahnriemen',cat:'motor',title:'Zahnriemen vs. Steuerkette',sub:'Was Kurbel- und Nockenwelle verbindet',
+ steps:S([[4600,'Kurbelwelle und Nockenwelle müssen exakt im Takt laufen. Dafür gibt es zwei Lösungen.'],
+ [5600,'Zahnriemen: aus Gummi mit Gewebeeinlage. Leise und leicht, muss aber nach Vorgabe gewechselt werden – oft nach 100.000 bis 200.000 km oder 5 bis 10 Jahren.'],
+ [5200,'Steuerkette: aus Metall, läuft im Motoröl. Sie hält meist sehr lange, kann sich aber mit der Zeit längen.'],
+ [4800,'Ein Spanner hält Riemen und Kette immer straff, damit kein Zahn überspringt.'],
+ [6000,'Reißt der Zahnriemen, bleiben die Nockenwellen stehen. Bei vielen Motoren treffen dann Kolben auf offene Ventile: Totalschaden.']]),
+ draw(g,st){const{s,p,t}=st;const ca=t*.004;const snap=s===4&&p>.3;
+  const drive=(X,kind,col,hl,broken)=>{const Y1=62,R1=34,Y2=184,R2=17;const camA=broken?(.3*.004*st.d*.3+0):ca/2;
+   g.save();g.globalAlpha=hl?1:.4;
+   if(kind==='belt'){g.strokeStyle=broken?hexA(col,.7):col;g.lineWidth=9;g.lineCap='round';g.beginPath();
+     if(broken){g.moveTo(X-R1,Y1);g.lineTo(X-R2-2,Y2-30);g.moveTo(X+R1,Y1);g.lineTo(X+R2+8,Y2-50);}
+     else{g.moveTo(X-R1,Y1);g.lineTo(X-R2,Y2);g.arc(X,Y2,R2,Math.PI,0,true);g.lineTo(X+R1,Y1);g.arc(X,Y1,R1,0,Math.PI,true);}g.stroke();
+     if(!broken){g.strokeStyle=C.metal;g.lineWidth=2;g.setLineDash([2,5]);g.lineDashOffset=-ca*R2;g.beginPath();g.moveTo(X-R1,Y1);g.lineTo(X-R2,Y2);g.arc(X,Y2,R2,Math.PI,0,true);g.lineTo(X+R1,Y1);g.arc(X,Y1,R1,0,Math.PI,true);g.stroke();g.setLineDash([]);}}
+   else{g.strokeStyle=col;g.lineWidth=5;g.setLineDash([5,3]);g.lineDashOffset=-ca*R2;g.beginPath();g.moveTo(X-R1,Y1);g.lineTo(X-R2,Y2);g.arc(X,Y2,R2,Math.PI,0,true);g.lineTo(X+R1,Y1);g.arc(X,Y1,R1,0,Math.PI,true);g.stroke();g.setLineDash([]);}
+   gear(g,X,Y1,R1-4,22,broken?.5:camA,C.head,C.metal,{mark:C.gold,depth:2.5});gear(g,X,Y2,R2-4,11,ca,C.head,C.metal,{mark:C.gold,depth:2.5});
+   const tx=X+(kind==='belt'?R1-2:-R1+2)*.9,ty=128;circ(g,tx+(kind==='belt'?6:-6),ty,9,s===3?hexA(C.gold,.4):C.head,s===3?C.gold:C.metal,1.6);
+   g.restore();};
+  drive(105,'belt',C.metal3,s!==2,snap);drive(295,'chain',C.metalHi,s!==1&&!(s===4),false);
+  pill(g,105,224,'ZAHNRIEMEN',C.orange,1);pill(g,295,224,'STEUERKETTE',C.blue,1);
+  if(s===1){pill(g,105,128,'GUMMI',C.text,1);pill(g,200,22,'WECHSEL NACH VORGABE!',C.gold,1);}
+  if(s===2){pill(g,295,128,'METALL, IM ÖL',C.blue,1);pill(g,200,22,'HÄLT MEIST SEHR LANGE',C.up,1);}
+  if(s===3)pill(g,200,128,'SPANNER',C.gold,1);
+  if(s===4&&snap){pill(g,105,128,'GERISSEN!',C.down,Math.sin(t*.02)>0?1:.5);pill(g,200,22,'KOLBEN TRIFFT VENTIL',C.down,1);}}
+ ,box:{was:'Der Zahnriemen oder die Steuerkette verbindet Kurbelwelle und Nockenwelle(n), damit die Ventile genau im richtigen Moment öffnen.',h2:'So erkennst du es',
+ erkennen:['Zahnriemen: unter einer Kunststoffabdeckung, trocken','Steuerkette: im Motor, läuft im Öl','Riemen hat ein festes Wechselintervall','Rasselnde Kette beim Kaltstart = Warnzeichen'],
+ bedeutung:'Ein verpasster Zahnriemenwechsel kann den ganzen Motor kosten. Das Intervall steht im Serviceheft – nach Kilometern UND Jahren.',
+ tipp:'Beim Zahnriemenwechsel meist gleich Spannrolle und Wasserpumpe mittauschen – die Arbeitszeit ist ohnehin fast dieselbe.'}});
+
+function rowEngine(g,n,order,phi,x0,y,sc){const sp=n===4?70:48;const start=200-(n-1)*sp/2;
+ for(let i=0;i<n;i++){const k=order.indexOf(i+1);const ph=((phi-k*720/n)%720+720)%720;const fire=ph>=360&&ph<440?1-(ph-360)/80:0;
+  slider(g,start+i*sp,y,-Math.PI/2,rad(ph),sc,{fire});if(!G.nolabel)txt(g,start+i*sp,y+22*sc,`${i+1}`,fire>0?C.fire:C.mute,12,'center',800);}
+ return start;}
+les({id:'zuendfolge',cat:'motor',title:'Zündfolge & Zündzeitpunkt',sub:'Wer zündet wann – und warum vor OT?',
+ steps:S([[5600,'Bei einem Vierzylinder zünden die Zylinder nicht der Reihe nach, sondern meist in der Folge 1-3-4-2.'],
+ [5000,'So verteilen sich die Kräfte gleichmäßig auf die Kurbelwelle: Alle 180° zündet ein Zylinder.'],
+ [6000,'Der Reihensechszylinder zündet 1-5-3-6-2-4 – alle 120° einmal. Deshalb läuft er so seidenweich.'],
+ [5600,'Gezündet wird nicht genau im OT, sondern kurz davor (Vorzündung), z. B. 20° vor OT. Die Verbrennung braucht nämlich etwas Zeit.'],
+ [5600,'Je höher die Drehzahl, desto früher muss gezündet werden. Das berechnet das Motorsteuergerät in jedem Moment neu.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s<3){const n=s===2?6:4,order=n===4?[1,3,4,2]:[1,5,3,6,2,4];const phi=(t*.09)%720;rowEngine(g,n,order,phi,0,150,n===4?1.6:1.3);
+   pill(g,200,30,n===4?'ZÜNDFOLGE 1 – 3 – 4 – 2':'ZÜNDFOLGE 1 – 5 – 3 – 6 – 2 – 4',C.gold,1);
+   pill(g,200,236,n===4?'ALLE 180° EINE ZÜNDUNG':'ALLE 120° EINE ZÜNDUNG',C.orange,s>=1?1:0);}
+  else{const X=140,Y=130,R=80;circ(g,X,Y,R,null,C.line2,10);
+   const adv=s===3?20:lerp(10,35,(Math.sin(t*.0015)+1)/2);const rpm=s===3?2000:Math.round(lerp(1000,6000,(Math.sin(t*.0015)+1)/2)/100)*100;
+   g.save();g.strokeStyle=C.gold;g.lineWidth=10;g.beginPath();g.arc(X,Y,R,-Math.PI/2-rad(adv),-Math.PI/2);g.stroke();g.restore();
+   line(g,X,Y-R-14,X,Y-R+14,C.text,2.5);pill(g,X,Y-R-24,'OT',C.text,1);
+   const sa=-Math.PI/2-rad(adv);circ(g,X+Math.cos(sa)*R,Y+Math.sin(sa)*R,7,C.fire2,C.bg,2);
+   const ca=-Math.PI/2+rad(((t*.12)%360)-180);line(g,X,Y,X+Math.cos(ca)*(R-16),Y+Math.sin(ca)*(R-16),C.metal,4);circ(g,X,Y,6,C.metalHi);
+   pill(g,320,90,`ZÜNDUNG ${deN(Math.round(adv))}° VOR OT`,C.gold,1);pill(g,320,122,`${deN(rpm)} U/MIN`,C.text,1);
+   if(s===4)pill(g,320,154,'MEHR DREHZAHL = FRÜHER',C.orange,1);}}
+ ,box:{was:'Die Zündfolge legt fest, in welcher Reihenfolge die Zylinder zünden. Der Zündzeitpunkt bestimmt, wie viele Grad vor dem OT der Funke kommt.',h2:'So funktioniert’s',
+ erkennen:['R4: meist 1-3-4-2, alle 180°','R6: 1-5-3-6-2-4, alle 120°','V8: alle 90° eine Zündung','Vorzündung: Funke schon vor dem OT'],
+ bedeutung:'Der höchste Druck soll kurz nach dem OT entstehen – dann drückt er den Kolben am wirkungsvollsten nach unten. Zu früh = Klopfen, zu spät = wenig Leistung, heißes Abgas.',
+ tipp:'Zylinder 1 sitzt beim Längsmotor meist vorne (Riemenseite). Wichtig, wenn ein Fehlercode wie P0301 auf einen Zylinder zeigt.'}});
+
+les({id:'vanos',cat:'motor',title:'VANOS & Valvetronic',sub:'Variable Steuerzeiten und variabler Ventilhub',
+ steps:S([[5200,'Die Ventilhub-Kurve zeigt, wann und wie weit ein Ventil öffnet. Links das Auslassventil, rechts das Einlassventil.'],
+ [5600,'VANOS (BMW) verdreht die Nockenwelle gegenüber der Kurbelwelle. Die Einlasskurve wandert dadurch früher oder später.'],
+ [5000,'Ergebnis: unten herum mehr Drehmoment, oben mehr Leistung, im Leerlauf ruhiger Lauf und sauberes Abgas.'],
+ [5600,'Valvetronic (BMW) verändert zusätzlich, wie weit das Einlassventil öffnet – stufenlos von etwa 0,2 bis knapp 10 mm.'],
+ [5600,'So regelt der Motor die Leistung direkt über den Ventilhub statt über eine Drosselklappe. Das spart rund 10 % Kraftstoff.']]),
+ draw(g,st){const{s,p,t}=st;const x0=50,y0=200,w=330,h=150;
+  axes(g,x0,y0,w,h,'KURBELWINKEL','VENTILHUB mm',[[.3,'AUSLASS'],[.62,'EINLASS']],[[.5,'5'],[1,'10']]);
+  const bell=(c,wd,ht)=>u=>{const d=(u-c)/wd;return Math.abs(d)<1?ht*Math.pow(Math.cos(d*Math.PI/2),2):null;};
+  plot(g,bell(.3,.17,.93),x0,y0,w,h,C.exhaust,2.4,1);
+  let sh=0,ht=.93;if(s===1||s===2)sh=Math.sin(t*.0018)*.08;if(s>=3)ht=lerp(.15,.95,(Math.sin(t*.0016)+1)/2);if(s===4)sh=.0;
+  plot(g,bell(.62,.17,.93),x0,y0,w,h,hexA(C.blue,.25),1.4,1);plot(g,bell(.62+sh,.17,ht),x0,y0,w,h,C.blue,2.8,s===0?ease(p):1);
+  
+  if(s===1||s===2){pill(g,x0+(.62+sh)*w,y0-h-4,sh<0?'← FRÜHER':'SPÄTER →',C.blue,1);}
+  if(s===2){pill(g,x0+.46*w,y0-34,'ÜBERSCHNEIDUNG',C.purple,1);}
+  if(s>=3)pill(g,x0+.62*w,y0-ht*h-14,`HUB ${deN(ht*10.5,1)} mm`,C.gold,1);
+  if(s===4)pill(g,x0+w,40,'KEINE DROSSELKLAPPE · −10 %',C.up,1,'right');}
+ ,box:{was:'VANOS verstellt die Steuerzeiten der Nockenwellen, Valvetronic den Hub des Einlassventils. Beides zusammen lässt den Motor in jeder Situation optimal atmen.',h2:'So funktioniert’s',
+ erkennen:['VANOS: Ventile öffnen früher oder später','Doppel-VANOS: Einlass UND Auslass verstellbar','Valvetronic: Ventil öffnet weniger oder mehr','Gesteuert vom Motorsteuergerät'],
+ bedeutung:'Ein fester Ventiltrieb ist immer ein Kompromiss. Variable Systeme bringen mehr Drehmoment, mehr Leistung und weniger Verbrauch zugleich.',
+ tipp:'Andere Hersteller haben ähnliche Systeme: VTEC (Honda), VVT-i (Toyota), Valvelift (Audi). Die Idee ist überall dieselbe.'}});
+
+les({id:'wankel',cat:'motor',title:'Der Wankelmotor',sub:'Dreieck statt Kolben',
+ steps:S([[5000,'Der Wankelmotor hat keine Kolben, die auf und ab gehen – sondern einen dreieckigen Läufer, der in einem ovalen Gehäuse kreist.'],
+ [5000,'Zwischen Läufer und Gehäuse entstehen drei Kammern. Ihre Größe ändert sich beim Drehen ständig.'],
+ [6400,'In jeder Kammer laufen nacheinander alle vier Takte ab: Ansaugen, Verdichten, Arbeiten, Ausstoßen – gleichzeitig an drei Stellen.'],
+ [5600,'Vorteile: sehr kompakt, leicht und laufruhig. Nachteile: höherer Verbrauch, und die Läuferspitzen sind schwer abzudichten.'],
+ [5200,'Berühmt durch NSU und Mazda (RX-7, RX-8). Heute vor allem als kleiner Reichweitenverlängerer im Elektroauto im Einsatz.']]),
+ draw(g,st){const{s,t}=st;const X=150,Y=125,R=62,e=11;const tt=t*.0009;
+  const H=s0=>[X+e*Math.cos(3*s0)+R*Math.cos(s0),Y+e*Math.sin(3*s0)*1+R*Math.sin(s0)*.0+R*Math.sin(s0)];
+  const hp=a=>[X+e*Math.cos(3*a)+(R+5)*Math.cos(a),Y+e*Math.sin(3*a)+(R+5)*Math.sin(a)];
+  // Gehäuse
+  g.beginPath();for(let i=0;i<=120;i++){const a=i/120*TAU,q=hp(a);i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]);}g.closePath();g.fillStyle=C.bg;g.fill();g.strokeStyle=C.blockLine;g.lineWidth=8;g.stroke();
+  const rc=[X+e*Math.cos(3*tt),Y+e*Math.sin(3*tt)];const V=k=>{const a=tt+k*TAU/3;return[rc[0]+R*Math.cos(a),rc[1]+R*Math.sin(a)];};
+  // Kammern färben
+  const phCol=a=>{a=((a%TAU)+TAU)%TAU;const d=a/TAU;return d<.25?C.exhaust:d<.5?C.fuel:d<.75?C.purple:C.fire;};
+  if(s>=1)for(let k=0;k<3;k++){const a0=tt+k*TAU/3,a1=a0+TAU/3,mid=(a0+a1)/2;g.beginPath();for(let i=0;i<=30;i++){const a=lerp(a0,a1,i/30),q=hp(a);i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]);}
+   const v1=V(k+1),v0=V(k);const cm=[rc[0]+Math.cos(mid)*R*.62,rc[1]+Math.sin(mid)*R*.62];g.lineTo(v1[0],v1[1]);g.quadraticCurveTo(cm[0],cm[1],v0[0],v0[1]);g.closePath();
+   g.fillStyle=hexA(s>=2?phCol(mid):C.blue,s>=2?.55:.18);g.fill();}
+  // Läufer
+  g.beginPath();for(let k=0;k<3;k++){const v0=V(k),v1=V(k+1),mid=tt+(k+.5)*TAU/3;const cm=[rc[0]+Math.cos(mid)*R*.62,rc[1]+Math.sin(mid)*R*.62];k?g.lineTo(v0[0],v0[1]):g.moveTo(v0[0],v0[1]);g.quadraticCurveTo(cm[0],cm[1],v1[0],v1[1]);}
+  g.closePath();g.fillStyle=C.metal;g.fill();g.strokeStyle=C.metal3;g.lineWidth=1.5;g.stroke();
+  circ(g,rc[0],rc[1],16,C.head,C.metal2,1.5);circ(g,X,Y,6,C.metalHi);line(g,X,Y,rc[0],rc[1],C.gold,3);
+  // Ein-/Auslass, Zündkerze
+  pipe(g,[[X-R-26,Y+40],[X-R+4,Y+28]],hexA(C.fuel,.5),10);pipe(g,[[X-R-26,Y-40],[X-R+4,Y-28]],hexA(C.exhaust,.5),10);
+  circ(g,X+R+10,Y,6,C.metalHi,C.metal);
+  pill(g,40,Y+62,'EINLASS',C.fuel,1);pill(g,40,Y-62,'AUSLASS',C.exhaust,1);pill(g,X+R+22,Y+26,'ZÜNDKERZE',C.gold,1,'left');
+  if(s===0)pill(g,X,Y+R+40,'LÄUFER',C.text,1);
+  if(s===2){PH.forEach((q,i)=>pill(g,392,40+i*26,q.n,C[q.c],1,'right'));}
+  if(s===3){pill(g,392,40,'+ KOMPAKT, LEICHT',C.up,1,'right');pill(g,392,66,'– VERBRAUCH',C.down,1,'right');pill(g,392,92,'– DICHTUNG',C.down,1,'right');}
+  if(s===4){pill(g,392,40,'NSU · MAZDA',C.text,1,'right');pill(g,392,66,'RANGE EXTENDER',C.up,1,'right');}}
+ ,box:{was:'Der Wankelmotor (Kreiskolbenmotor) arbeitet ohne Hubkolben. Ein dreieckiger Läufer dreht sich in einem ovalen Gehäuse und bildet dabei drei Arbeitskammern.',h2:'So funktioniert’s',
+ erkennen:['Läufer = abgerundetes Dreieck','Gehäuse = Oval mit „Taille“ (Epitrochoide)','Keine Ventile – Ein- und Auslass sind Öffnungen','Exzenterwelle dreht 3-mal schneller als der Läufer'],
+ bedeutung:'Der Wankel ist sehr kompakt und vibrationsarm. Hoher Verbrauch, Ölverbrauch und Probleme mit den Dichtleisten haben ihn aber selten gemacht.',
+ tipp:'Benannt nach dem deutschen Erfinder Felix Wankel. Der NSU Ro 80 von 1967 war das erste große Serienauto damit.'}});
+
+les({id:'wirkungsgrad',cat:'motor',title:'Wirkungsgrad & Energiebilanz',sub:'Wohin die Energie aus dem Tank geht',
+ steps:S([[4800,'Von 100 % Energie im Tank kommt beim Verbrenner nur ein Teil an den Rädern an. Schauen wir, wohin der Rest geht.'],
+ [4600,'Etwa ein Drittel geht als heißes Abgas aus dem Auspuff …'],
+ [5200,'… etwa ein weiteres Drittel nimmt das Kühlwasser mit. Dazu kommen Reibung und Nebenaggregate.'],
+ [5600,'Übrig bleiben im Alltag oft nur 20 bis 30 % für den Antrieb. Bestwerte moderner Motoren liegen bei gut 40 %.'],
+ [5600,'Zum Vergleich das E-Auto: Vom Akku bis zum Rad kommen rund 85 bis 90 % an. Deshalb braucht es so wenig Energie.']]),
+ draw(g,st){const{s,p}=st;const x0=30,w=340;
+  const seg=[['ABGAS 33 %',33,C.hot,1],['KÜHLUNG 32 %',32,C.blue,2],['REIBUNG 10 %',10,C.mute,2],['ANTRIEB 25 %',25,C.up,3]];
+  if(!G.nolabel)txt(g,x0,40,'VERBRENNER',C.orange,12,'left',800);
+  box(g,x0,52,w,34,C.line,null,6);let x=x0;
+  seg.forEach(([n,v,c,k],i)=>{const a=ap(st,k);const ww=v/100*w;if(a){g.save();g.globalAlpha=a;box(g,x+1,52,ww-2,34,hexA(c,.7),null,5);g.restore();
+   pill(g,x+ww/2,i===2?126:100,n,c,a);}x+=ww;});
+  if(s===0){pill(g,x0+w/2,69,'100 % ENERGIE IM TANK',C.gold,1);}
+  if(s===3)pill(g,x0+w,150,'BESTWERT ≈ 40 %',C.gold,1,'right');
+  const a4=ap(st,4);if(a4){g.save();g.globalAlpha=a4;if(!G.nolabel)txt(g,x0,166,'ELEKTROAUTO',C.purple,12,'left',800);box(g,x0,178,w,34,C.line,null,6);
+   const f=s===4?ease(p):1;box(g,x0+1,178,w*.87*f-2,34,hexA(C.up,.7),null,5);box(g,x0+w*.87,178,w*.13-1,34,hexA(C.mute,.5),null,5);g.restore();
+   pill(g,x0+w*.43,195,'ANTRIEB ≈ 87 %',C.text,a4);pill(g,x0+w,232,'VERLUSTE ≈ 13 %',C.mute,a4,'right');}}
+ ,box:{was:'Der Wirkungsgrad gibt an, wie viel der eingesetzten Energie tatsächlich in Bewegung umgewandelt wird.',h2:'So funktioniert’s',
+ erkennen:['Verbrenner: ca. 20–40 % Wirkungsgrad','Größte Verluste: Abgas- und Kühlwärme','E-Antrieb: ca. 85–90 % vom Akku zum Rad','Reibung, Pumpen und Lichtmaschine kosten zusätzlich'],
+ bedeutung:'Deshalb braucht ein E-Auto für 100 km nur etwa 15–20 kWh, während ein Benziner mit 6 Litern rund 54 kWh Energie verbrennt (1 l Benzin ≈ 9 kWh).',
+ tipp:'Im Winter ist die Abwärme des Verbrenners nützlich: Sie heizt den Innenraum „kostenlos“. Das E-Auto muss dafür Strom aufwenden.'}});
+
+les({id:'klopfen',cat:'motor',title:'Klopfen & Oktanzahl',sub:'Warum Super 95 und Super Plus 98?',
+ steps:S([[5000,'Normal: Die Zündkerze zündet, und eine Flammenfront breitet sich gleichmäßig im Brennraum aus.'],
+ [5600,'Klopfen: Durch Hitze und Druck entzündet sich ein Rest des Gemischs von selbst – an einer zweiten Stelle. Zwei Flammenfronten prallen aufeinander.'],
+ [5200,'Das erzeugt harte Druckspitzen und ein metallisches „Klingeln“. Auf Dauer kann es Kolben und Lager zerstören.'],
+ [5600,'Die Oktanzahl (ROZ) gibt an, wie klopffest Benzin ist: Super 95, Super Plus 98. Höher = verträgt mehr Druck und Verdichtung.'],
+ [5800,'Der Klopfsensor erkennt Klopfen sofort, und das Steuergerät zündet etwas später. Deshalb läuft ein Motor auch mit 95 statt 98 – nur mit etwas weniger Leistung.']]),
+ draw(g,st){const{s,p,t}=st;const X=105,Y=125,R=78;const knock=s===1||s===2;
+  circ(g,X,Y,R+6,C.block,C.blockLine,2);circ(g,X,Y,R,C.bg,null);
+  const f=(t%2400)/2400;g.save();g.beginPath();g.arc(X,Y,R,0,TAU);g.clip();
+  g.fillStyle=hexA(C.fuel,.2);g.fillRect(X-R,Y-R,2*R,2*R);
+  const r1=f*R*1.6;circ(g,X,Y,r1,hexA(C.fire,.55),C.fire2,2);
+  if(knock&&f>.35){const r2=(f-.35)*R*2.4;circ(g,X+R*.6,Y+R*.45,r2,hexA(C.down,.6),C.down,2);}g.restore();
+  circ(g,X,Y,5,C.gold);pill(g,X,Y+R+24,knock?'2 FLAMMENFRONTEN!':'1 FLAMMENFRONT',knock?C.down:C.up,1);
+  const x0=210,y0=200,w=175,h=130;line(g,x0,y0,x0+w,y0,C.axis,1);line(g,x0,y0,x0,y0-h,C.axis,1);if(!G.nolabel)txt(g,x0+2,y0-h-8,'DRUCK IM ZYLINDER',C.mute,9,'left');
+  const base=u=>.75*Math.exp(-Math.pow((u-.45)/.14,2));plot(g,base,x0,y0,w,h,C.up,2.2,1,knock?.4:1);
+  if(knock)plot(g,u=>base(u)+(u>.46?.25*Math.exp(-(u-.46)*12)*Math.sin((u-.46)*120):0),x0,y0,w,h,C.down,2.2,s===1?ease(p):1);
+  if(s===2&&Math.sin(t*.05)>0)pill(g,x0+w/2,30,'„KLINGELN“',C.down,1);
+  if(s===3){pill(g,x0+w/2,20,'SUPER 95 · ROZ 95',C.gold,1);pill(g,x0+w/2,44,'SUPER PLUS · ROZ 98',C.orange,1);}
+  if(s===4)pill(g,x0+w/2,30,'SPÄTER ZÜNDEN = SICHER',C.up,1);}
+ ,box:{was:'Klopfen ist eine unkontrollierte Selbstzündung des Restgemischs im Benzinmotor. Die Oktanzahl gibt an, wie gut ein Kraftstoff dem widersteht.',h2:'So erkennst du es',
+ erkennen:['Metallisches Klingeln unter Last','Tritt bei hoher Last und niedriger Drehzahl auf','Klopfsensor + Steuergerät regeln dagegen','ROZ 95 (Super), 98 (Super Plus), E10 = 95'],
+ bedeutung:'Höhere Oktanzahl lohnt sich nur, wenn der Motor dafür ausgelegt ist (z. B. hoch verdichtete Sportmotoren). Für die meisten Autos reicht Super 95.',
+ tipp:'E10 hat ebenfalls ROZ 95 und ist für fast alle Benziner ab etwa 2011 freigegeben. Im Zweifel in der Betriebsanleitung oder im Tankdeckel nachsehen.'}});
+
+/* ---------- E-MOBILITÄT (Paket 2) ---------- */
+les({id:'waermepumpe',cat:'elektro',title:'Wärmepumpe im E-Auto',sub:'Heizen mit Wärme aus der Außenluft',
+ steps:S([[4800,'Ein Verbrenner heizt mit seiner Abwärme. Ein E-Auto hat kaum Abwärme – es muss die Wärme für den Innenraum anders erzeugen.'],
+ [4800,'Einfache Lösung: ein elektrischer Heizer, wie ein Wasserkocher. Aus 1 kWh Strom wird 1 kWh Wärme.'],
+ [5000,'Die Wärmepumpe holt zusätzlich Wärme aus der Außenluft – wie ein Kühlschrank, nur andersherum.'],
+ [6400,'Das Kältemittel verdampft draußen und nimmt dabei Wärme auf. Der Verdichter presst es zusammen und macht es heiß. Innen gibt es die Wärme ab.'],
+ [5600,'So werden aus 1 kWh Strom etwa 2 bis 3 kWh Wärme. Im Winter bringt das spürbar mehr Reichweite.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s<2){box(g,60,70,110,110,C.head,C.hot,10,1.6);for(let i=0;i<5;i++){const y=90+i*18;g.strokeStyle=hexA(C.hot,.8);g.lineWidth=2;g.beginPath();for(let x=80;x<=150;x+=4)g.lineTo(x,y+Math.sin(x*.2+t*.01)*3);g.stroke();}
+   pill(g,115,200,s===0?'VERBRENNER: ABWÄRME':'E-HEIZER',C.hot,1);
+   if(s===1){pill(g,290,100,'1 kWh STROM',C.gold,1);arrow(g,290,118,290,150,C.text,2);pill(g,290,168,'1 kWh WÄRME',C.hot,1);}
+   else pill(g,290,125,'E-AUTO: KAUM ABWÄRME',C.blue,1);return;}
+  // Kreislauf
+  const L=[[70,60],[330,60],[330,190],[70,190],[70,60]];pipe(g,L,hexA(C.line2,.8),6);
+  const ev=[40,90,60,70],co=[300,90,60,70];
+  box(g,ev[0],ev[1],ev[2],ev[3],hexA(C.blue,.2),C.blue,6,1.6);box(g,co[0],co[1],co[2],co[3],hexA(C.hot,.2),C.hot,6,1.6);
+  pill(g,70,82,'DRAUSSEN',C.blue,1);pill(g,330,82,'INNEN',C.hot,1);
+  circ(g,200,190,16,C.head,C.purple,2);g.save();g.translate(200,190);g.rotate(t*.01);line(g,-10,0,10,0,C.purple,2);line(g,0,-10,0,10,C.purple,2);g.restore();pill(g,200,222,'VERDICHTER',C.purple,1);
+  box(g,190,52,20,16,C.head,C.gold,3);pill(g,200,32,'DROSSEL',C.gold,1);
+  if(s>=3){flow(g,[[70,190],[70,60],[190,60]],t,C.blue,{gap:12,speed:.05});flow(g,[[210,60],[330,60]],t,C.blue,{gap:12,speed:.05,a:.6});flow(g,[[216,190],[330,190],[330,60]],t,C.hot,{gap:12,speed:.05});flow(g,[[70,190],[184,190]],t,C.blue,{gap:12,speed:.05,a:.6});}
+  for(let i=0;i<3;i++){const f=(t*.0012+i/3)%1;arrow(g,2,100+i*22,36,100+i*22,hexA(C.blue,.8),1.6,1-Math.abs(f-.5));}
+  for(let i=0;i<3;i++){const f=(t*.0012+i/3)%1;arrow(g,364,100+i*22,398,100+i*22,hexA(C.hot,.8),1.6,1-Math.abs(f-.5));}
+  if(s===3){pill(g,70,140,'VERDAMPFT',C.blue,1);pill(g,330,140,'GIBT WÄRME AB',C.hot,1);}
+  if(s===4){pill(g,200,110,'1 kWh STROM',C.gold,1);pill(g,200,140,'→ 2–3 kWh WÄRME',C.up,1);}}
+ ,box:{was:'Eine Wärmepumpe transportiert Wärme von draußen nach drinnen. Dafür braucht sie Strom – aber deutlich weniger, als sie an Wärme liefert.',h2:'So funktioniert’s',
+ erkennen:['Verdampfer draußen: Kältemittel nimmt Wärme auf','Verdichter: macht das Gas heiß','Kondensator innen: gibt Wärme ab','Drosselventil: Druck sinkt, Kreislauf beginnt neu'],
+ bedeutung:'Gerade bei 0 bis 10 °C spart die Wärmepumpe viel Strom. Bei sehr starkem Frost sinkt ihr Vorteil, dann hilft ein zusätzlicher Heizer.',
+ tipp:'Genau so funktioniert auch die Wärmepumpe im Haus – und der Kühlschrank, nur dass der die Wärme von innen nach außen pumpt.'}});
+
+les({id:'thermo',cat:'akku',title:'Thermomanagement des Akkus',sub:'Der Akku mag es wie wir: nicht zu kalt, nicht zu heiß',
+ steps:S([[4600,'Ein Akku fühlt sich bei etwa 20 bis 40 °C am wohlsten.'],
+ [5000,'Zu kalt: Die Ionen werden träge. Der Akku lädt langsam und gibt weniger Leistung ab.'],
+ [5000,'Zu heiß: Die Zellen altern schneller. Im Extremfall droht Überhitzung.'],
+ [5800,'Deshalb fließt Kühlmittel durch Platten unter den Zellen. Es kann kühlen – und mit Heizer oder Wärmepumpe auch wärmen.'],
+ [5800,'Vorkonditionieren: Vor dem Schnellladen wird der Akku gezielt auf Temperatur gebracht. So lädt er deutlich schneller.']]),
+ draw(g,st){const{s,p,t}=st;const x0=40,w=320,y=40;
+  const T2x=T=>x0+(T+20)/80*w;g.fillStyle=C.line;rr(g,x0,y-8,w,16,8);g.fill();
+  g.fillStyle=hexA(C.blue,.5);g.fillRect(x0+2,y-6,T2x(20)-x0-2,12);g.fillStyle=hexA(C.up,.75);g.fillRect(T2x(20),y-6,T2x(40)-T2x(20),12);g.fillStyle=hexA(C.hot,.55);g.fillRect(T2x(40),y-6,x0+w-T2x(40)-2,12);
+  [-20,0,20,40,60].forEach(v=>{if(!G.nolabel)txt(g,T2x(v),y+18,`${v} °C`,C.mute,9,'center',600);});
+  let T=30;if(s===1)T=lerp(30,-10,ease(p));if(s===2)T=lerp(30,55,ease(p));if(s===3)T=30+Math.sin(t*.002)*6;if(s===4)T=lerp(5,32,ease(p));
+  const tc=T<20?C.blue:T>40?C.hot:C.up;g.fillStyle=tc;g.beginPath();g.moveTo(T2x(T),y-10);g.lineTo(T2x(T)-6,y-20);g.lineTo(T2x(T)+6,y-20);g.closePath();g.fill();
+  // Akku
+  box(g,40,92,320,96,C.head,C.blockLine,8);for(let i=0;i<6;i++)box(g,52+i*51,102,42,58,hexA(tc,.3),tc,4);
+  const a3=ap(st,3);box(g,46,166,308,14,a3?hexA(C.water,.3):C.line,a3?C.water:C.line2,4);
+  if(a3){const cool=s===3?C.water:C.hot;flow(g,[[20,173],[380,173]],t,s===4?C.hot:C.water,{gap:10,speed:.06});pill(g,200,206,s===4?'KÜHLMITTEL WÄRMT':'KÜHLPLATTE',s===4?C.hot:C.water,a3);}
+  const lab=s===0?'WOHLFÜHLBEREICH 20–40 °C':s===1?'ZU KALT: LANGSAM':s===2?'ZU HEISS: ALTERT':s===4?'VORHEIZEN FÜRS SCHNELLLADEN':'';if(lab)pill(g,200,236,lab,tc,1);
+  pill(g,200,76,`${deN(Math.round(T))} °C`,tc,1);}
+ ,box:{was:'Das Thermomanagement hält den Akku in seinem idealen Temperaturbereich – durch Kühlen im Sommer und beim Schnellladen, durch Heizen im Winter.',h2:'So funktioniert’s',
+ erkennen:['Kühlplatten mit Kühlmittel unter den Zellen','Heizer oder Wärmepumpe für kalte Tage','Steuerung über das Batteriemanagement (BMS)','Vorkonditionierung per Navi-Ziel oder App'],
+ bedeutung:'Ein gut temperierter Akku lädt schneller, liefert mehr Leistung und hält länger. Deshalb ist das Thermomanagement eines der wichtigsten Systeme im E-Auto.',
+ tipp:'Im Winter das Auto am Ladekabel vorheizen lassen: Die Energie kommt dann aus der Steckdose statt aus dem Akku.'}});
+
+les({id:'800volt',cat:'akku',title:'400 Volt vs. 800 Volt',sub:'Warum höhere Spannung schneller lädt',
+ steps:S([[5400,'Die meisten E-Autos arbeiten mit rund 400 Volt. Neuere Modelle nutzen 800 Volt – z. B. Porsche Taycan, Hyundai Ioniq 5 oder die BMW Neue Klasse.'],
+ [5200,'Leistung = Spannung × Strom. Für 200 kW Ladeleistung braucht man bei 400 V einen Strom von 500 A …'],
+ [4600,'… bei 800 V dagegen nur 250 A. Halber Strom bei gleicher Leistung!'],
+ [5800,'Weniger Strom heißt: dünnere, leichtere Kabel. Und die Wärmeverluste in den Kabeln sinken sogar auf ein Viertel (Verlust steigt mit dem Strom zum Quadrat).'],
+ [5600,'Im Alltag: schnelleres Laden, z. B. 10 → 80 % in rund 20 Minuten. An älteren 400-V-Säulen wird intern umgewandelt.']]),
+ draw(g,st){const{s,p,t}=st;
+  const row=(y,V,I,thick,col,a)=>{g.save();g.globalAlpha=a;pill(g,40,y,`${V} V`,col,1);pipe(g,[[80,y],[300,y]],hexA(col,.35),thick);flow(g,[[80,y],[300,y]],t,col,{gap:I===500?6:12,speed:.07,r:I===500?3:2.4});
+   box(g,304,y-18,70,36,hexA(C.batt,.25),C.batt,6);if(!G.nolabel)txt(g,339,y,'200 kW',C.batt,11);g.restore();
+   pill(g,190,y-30,`${I} A`,col,a);};
+  row(80,400,500,22,C.orange,ap(st,1)||(s===0?1:0));row(176,800,250,11,C.up,ap(st,2)||(s===0?1:0));
+  if(s===1)pill(g,190,114,'200.000 W ÷ 400 V = 500 A',C.gold,1);
+  if(s===2)pill(g,190,222,'200.000 W ÷ 800 V = 250 A',C.gold,1);
+  if(s===3){pill(g,190,114,'DICKES KABEL · VIEL WÄRME',C.orange,1);pill(g,190,222,'DÜNN · ¼ DER VERLUSTE',C.up,1);}
+  if(s===4)pill(g,190,222,'10 → 80 % IN ≈ 20 MIN',C.up,1);
+  if(s===0)pill(g,200,226,'GLEICHE LEISTUNG, ANDERE SPANNUNG',C.text,1);}
+ ,box:{was:'Die Systemspannung des Hochvolt-Akkus liegt meist bei 400 oder 800 Volt. Höhere Spannung bedeutet bei gleicher Leistung weniger Strom.',h2:'So rechnest du',
+ erkennen:['P = U × I (Leistung = Spannung × Strom)','I = P ÷ U','Verluste im Kabel ∝ I² – halber Strom = ¼ Verlust','800 V: Ladeleistungen von 250 kW und mehr möglich'],
+ bedeutung:'800 Volt ermöglicht schnelleres Laden, leichtere Kabel und effizientere Motoren. Es ist der neue Standard für moderne E-Autos.',
+ tipp:'Am Schnelllader zählt nicht nur die Säule: Ein 400-V-Auto kann an einer 350-kW-Säule trotzdem nur seine eigene Höchstleistung ziehen.'}});
+
+les({id:'brennstoffzelle',cat:'elektro',title:'Wasserstoff & Brennstoffzelle',sub:'Strom an Bord selbst erzeugen',
+ steps:S([[5000,'Ein Brennstoffzellenauto ist auch ein Elektroauto. Den Strom erzeugt es aber selbst an Bord.'],
+ [5000,'Im Tank ist Wasserstoff (H₂) unter 700 bar Druck gespeichert. Er strömt zur Brennstoffzelle.'],
+ [6200,'In der Zelle reagiert der Wasserstoff mit Sauerstoff aus der Luft. Dabei entsteht Strom – und als „Abgas“ nur Wasser.'],
+ [5000,'Der Strom treibt einen E-Motor an. Ein kleiner Akku puffert Energie, z. B. beim Rekuperieren.'],
+ [5800,'Vorteil: in wenigen Minuten vollgetankt. Nachteil: sehr wenige Tankstellen, und die Herstellung von Wasserstoff kostet viel Energie.']]),
+ draw(g,st){const{s,p,t}=st;const ax=110,kx=250,y0=80,h=110;
+  box(g,8,100,62,56,hexA(C.aqua,.18),C.aqua,26,1.6);if(!G.nolabel){txt(g,39,122,'H₂',C.aqua,13);txt(g,39,140,'700 bar',C.aqua,8.5);}pill(g,39,174,'TANK',C.aqua,1);
+  box(g,ax,y0,40,h,hexA(C.aqua,.18),C.aqua,4);box(g,kx,y0,40,h,hexA(C.blue,.18),C.blue,4);g.fillStyle=hexA(C.gold,.25);g.fillRect(ax+40,y0,kx-ax-40,h);line(g,200,y0,200,y0+h,C.gold,2,[5,4]);
+  pill(g,ax+20,y0+h+16,'ANODE',C.aqua,1);pill(g,kx+20,y0+h+16,'KATHODE',C.blue,1);pill(g,200,y0+h+40,'MEMBRAN',C.gold,ap(st,2)*(s===4?0:1));
+  if(s>=1)flow(g,[[70,128],[ax,128]],t,C.aqua,{gap:10,speed:.05,r:2.8});
+  if(s>=2){for(let i=0;i<6;i++){const f=((t*.0006)+i/6)%1;circ(g,lerp(ax+44,kx-4,f),y0+12+i*17,3.4,C.gold);}
+   flow(g,[[396,98],[kx+40,98]],t,C.blue,{gap:12,speed:.05,r:2.6});pill(g,370,80,'O₂ LUFT',C.blue,1);
+   flow(g,[[kx+40,170],[396,170]],t,C.water,{gap:12,speed:.04,r:3});pill(g,370,190,'H₂O WASSER',C.water,1);
+   pipe(g,[[ax+20,y0],[ax+20,30],[kx+20,30],[kx+20,y0]],hexA(C.metal,.5),3);flow(g,[[ax+20,y0],[ax+20,30],[kx+20,30],[kx+20,y0]],t,C.aqua,{gap:12,speed:.06,r:2});
+   box(g,170,20,60,20,C.bg,s>=3?C.orange:C.gold,5,1.6);if(!G.nolabel)txt(g,200,30.5,s>=3?'E-MOTOR':'STROM',s>=3?C.orange:C.gold,9.5);}
+  if(s===3)pill(g,4,226,'+ PUFFER-AKKU',C.up,1,'left');
+  if(s===4){pill(g,200,236,'+ 3–5 MIN TANKEN · – WENIG TANKSTELLEN',C.text,1);}}
+ ,box:{was:'Eine Brennstoffzelle wandelt Wasserstoff und Sauerstoff direkt in Strom um. Das Auto fährt elektrisch, tankt aber Wasserstoff statt Strom.',h2:'So funktioniert’s',
+ erkennen:['H₂-Tank mit 700 bar Druck','Membran lässt nur Protonen (H⁺) durch','Elektronen fließen außen als Strom','Einziges Abgas: Wasserdampf'],
+ bedeutung:'Wasserstoff ist nur dann klimafreundlich, wenn er mit Ökostrom erzeugt wird („grüner Wasserstoff“). Der Gesamtwirkungsgrad ist deutlich schlechter als beim Akku-Auto.',
+ tipp:'BMW testet Wasserstoff mit dem iX5 Hydrogen und plant ein Serienmodell. Toyota Mirai und Hyundai Nexo sind schon länger auf dem Markt.'}});
+
+les({id:'alterung',cat:'akku',title:'Akku-Alterung & Garantie',sub:'Wie lange hält ein E-Auto-Akku?',
+ steps:S([[5000,'Jeder Akku verliert mit der Zeit etwas Kapazität. Den Zustand nennt man SoH (State of Health) – neu sind das 100 %.'],
+ [5000,'Typisch: In den ersten Jahren sinkt der SoH etwas schneller, danach nur noch sehr langsam.'],
+ [5200,'Viele Akkus haben nach 200.000 km noch rund 85 bis 90 % ihrer Kapazität.'],
+ [5800,'Was schont: im Alltag meist zwischen 20 und 80 % laden, nicht lange ganz voll oder leer stehen lassen, große Hitze vermeiden.'],
+ [5600,'Hersteller geben meist 8 Jahre oder 160.000 km Garantie darauf, dass der Akku mindestens 70 % Kapazität behält.']]),
+ draw(g,st){const{s,p}=st;const x0=58,y0=205,w=320,h=165;const lo=60;
+  axes(g,x0,y0,w,h,'KILOMETER','SoH %',[[0,'0'],[1/3,'100.000'],[2/3,'200.000'],[1,'300.000']],[[(70-lo)/40,'70'],[(80-lo)/40,'80'],[(90-lo)/40,'90'],[1,'100']]);
+  const soh=u=>{const km=u*300;return 100-5*(1-Math.exp(-km/40))-km*.025;};
+  plot(g,u=>(soh(u)-lo)/40,x0,y0,w,h,C.up,2.8,s===0?.02:s===1?ease(p)*.35:s===2?.35+ease(p)*.32:1);
+  if(s>=2){const X=x0+2/3*w,Y=y0-(soh(2/3)-lo)/40*h;circ(g,X,Y,5,C.gold,C.bg,2);pill(g,X,Y-20,`${deN(soh(2/3),0)} % NACH 200.000 km`,C.gold,1);}
+  if(s===0)pill(g,x0+10,y0-h+8,'NEU: 100 %',C.up,1,'left');
+  if(s===3){box(g,120,112,200,46,C.head,C.line2,8);box(g,120+200*.2,112,200*.6,46,hexA(C.up,.4),C.up,4);if(!G.nolabel){txt(g,124,170,'0 %',C.mute,9,'left');txt(g,316,170,'100 %',C.mute,9,'right');}pill(g,220,135,'20 – 80 %',C.text,1);}
+  if(s===4){const Y=y0-(70-lo)/40*h;line(g,x0,Y,x0+w,Y,C.down,1.6,[5,4]);const X=x0+160/300*w;line(g,X,y0,X,y0-h,C.down,1.6,[5,4]);pill(g,X,Y-14,'GARANTIE: 8 J. / 160.000 km / 70 %',C.down,1);}}
+ ,box:{was:'Mit jedem Ladezyklus und mit der Zeit verliert ein Akku etwas Kapazität. Der State of Health (SoH) zeigt, wie viel davon noch übrig ist.',h2:'So erkennst du es',
+ erkennen:['SoH = aktuelle ÷ ursprüngliche Kapazität','Anfangs schnellere, später langsame Alterung','Hitze und Dauer-100 % beschleunigen die Alterung','Akku-Zertifikat beim Gebrauchtkauf verlangen'],
+ bedeutung:'Moderne Akkus halten meist länger als befürchtet – oft länger als das restliche Auto. Ein Tausch ist selten nötig.',
+ tipp:'Beim Gebrauchtwagenkauf nach einem SoH-Bericht fragen. Viele Werkstätten und Prüfdienste messen das inzwischen für kleines Geld.'}});
+
+/* ---------- SICHERHEIT & ASSISTENZ ---------- */
+CATS.sicherheit='Sicherheit & Assistenz';
+les({id:'knautschzone',cat:'sicherheit',title:'Knautschzone & Fahrgastzelle',sub:'Weich außen, hart innen',
+ steps:S([[4800,'Bei einem Aufprall muss die Bewegungsenergie des Autos irgendwohin.'],
+ [5600,'Die Knautschzone vorne (und hinten) verformt sich gezielt. Sie „schluckt“ Energie und verlängert den Bremsweg für die Insassen.'],
+ [5000,'Die Fahrgastzelle ist dagegen extrem steif, aus hochfestem Stahl. Sie soll den Überlebensraum erhalten.'],
+ [6200,'Je länger der Weg bis zum Stillstand, desto geringer die Kräfte: 50 cm Knautschzone statt 5 cm bedeuten nur ein Zehntel der Verzögerung.'],
+ [5600,'Ein Aufprall mit 50 km/h entspricht einem Sturz aus etwa 10 m Höhe – aus dem 3. Stock!']]),
+ draw(g,st){const{s,p}=st;const wall=350;const crash=s===0?ease(p):1;const hood0=90,hood1=38;
+  let x0,hood;if(s===0){x0=lerp(20,wall-hood0-190,crash);hood=hood0;}else{const c=s===1?ease(p):1;hood=lerp(hood0,hood1,c);x0=wall-hood-190;}
+  box(g,wall,40,30,180,C.metal3,C.metal,2);for(let y=48;y<220;y+=16)line(g,wall,y,wall+30,y+8,hexA(C.metalHi,.3),1);
+  g.fillStyle=C.road;g.fillRect(0,206,wall,30);
+  // Heck + Fahrgastzelle + Front
+  const cab=s>=2?C.up:C.carLine;box(g,x0,130,190,62,C.carBody,cab,10,s>=2?2.4:1.6);poly(g,[[x0+40,130],[x0+70,86],[x0+160,86],[x0+190,130]],C.glass,cab,s>=2?2.4:1.6);
+  g.save();g.translate(x0+190,130);const k=hood/hood0;box(g,0,10,hood,48,hexA(C.orange,s>=1?.35:.12),C.orange,6,1.6);
+  if(k<.98){g.strokeStyle=C.orange;g.lineWidth=1.4;g.beginPath();const n=Math.round((1-k)*14)+2;for(let i=0;i<=n;i++)g.lineTo(i/n*hood,10+(i%2?6:42));g.stroke();}g.restore();
+  circ(g,x0+40,198,14,C.metal3,C.metal,1.6);circ(g,x0+190+Math.min(hood,60)-20,198,14,C.metal3,C.metal,1.6);
+  if(s===0)pill(g,200,30,`${deN(Math.round(lerp(50,50,p)))} km/h`,C.text,1);
+  pill(g,x0+190+hood/2,112,'KNAUTSCHZONE',C.orange,ap(st,1));pill(g,x0+100,112-40,'FAHRGASTZELLE',C.up,ap(st,2));
+  if(s===3){pill(g,170,26,'5 cm → ≈ 200 g',C.down,1);pill(g,170,50,'50 cm → ≈ 20 g',C.up,1);}
+  if(s===4){pill(g,170,26,'50 km/h ≈ STURZ AUS 10 m',C.down,1);}}
+ ,box:{was:'Die Karosserie besteht aus weichen Knautschzonen vorne und hinten und einer sehr steifen Fahrgastzelle in der Mitte.',h2:'So funktioniert’s',
+ erkennen:['Längsträger falten sich wie eine Ziehharmonika','Fahrgastzelle aus hoch- und höchstfestem Stahl','Energie wird in Verformung umgewandelt','Crashtests prüfen das (z. B. Euro NCAP)'],
+ bedeutung:'Nicht die Geschwindigkeit verletzt, sondern das abrupte Abbremsen. Die Knautschzone macht das Abbremsen sanfter – Gurt und Airbag tun dasselbe für den Körper.',
+ tipp:'Physik: Bewegungsenergie wächst mit dem Quadrat der Geschwindigkeit. 70 km/h statt 50 km/h bedeuten fast die doppelte Aufprallenergie.'}});
+
+les({id:'airbag',cat:'sicherheit',title:'Airbag & Gurtstraffer',sub:'Alles passiert in Millisekunden',
+ steps:S([[5200,'Sensoren messen beim Aufprall die Verzögerung. Innerhalb von rund 15 Millisekunden entscheidet das Steuergerät: Airbag ja oder nein.'],
+ [4800,'Der Gurtstraffer zieht den Gurt blitzschnell straff – der Körper wird fest in den Sitz gedrückt.'],
+ [5600,'Eine kleine Treibladung füllt den Airbag mit Gas. Nach etwa 30 Millisekunden ist er voll – ein Wimpernschlag dauert über 100!'],
+ [5400,'Der Kopf taucht in den Airbag ein. Das Gas entweicht durch Löcher, so bremst der Airbag weich ab, statt zurückzufedern.'],
+ [5600,'Danach gibt der Gurtkraftbegrenzer etwas nach, damit die Kraft auf die Brust nicht zu groß wird. Wichtig: Airbag ohne Gurt hilft kaum!']]),
+ draw(g,st){const{s,p}=st;const ms=s===0?ease(p)*15:s===1?15+ease(p)*7:s===2?22+ease(p)*12:s===3?34+ease(p)*36:70+ease(p)*30;
+  const fwd=ms<20?0:ms<40?(ms-20)*.6:ms<80?12+(ms-40)*.55:34-(ms-80)*.3;const bag=ms<22?0:ms<34?(ms-22)/12:ms<70?1:1-(ms-70)/60;
+  // Sitz
+  poly(g,[[70,200],[150,200],[150,186],[90,186],[72,90],[58,92]],C.head,C.blockLine,1.6);
+  // Person
+  const hx=104+fwd,hy=80;line(g,96,184,98+fwd*.6,118,C.text,10);circ(g,hx,hy,17,C.text);line(g,120,184,180,190,C.text,9);line(g,180,190,190,222,C.text,8);
+  line(g,100+fwd*.5,130,150+fwd*.3,150,C.text,7);
+  // Gurt
+  const tight=ms>=15;line(g,80,104,124+fwd*.4,184,tight?C.gold:C.mute,tight?4:3);line(g,92,180,132,184,tight?C.gold:C.mute,tight?4:3);
+  // Lenkrad + Airbag
+  line(g,230,210,200,120,C.metal2,6);g.save();g.translate(200,120);g.rotate(rad(-20));box(g,-6,-30,12,60,C.metal3,C.metal,4);g.restore();
+  if(bag>0){g.save();g.globalAlpha=.85;g.beginPath();g.ellipse(176,100,34*bag,44*bag,0,0,TAU);g.fillStyle=hexA(C.metalHi,.55);g.fill();g.strokeStyle=C.metalHi;g.lineWidth=1.5;g.stroke();g.restore();}
+  // Zeitleiste
+  const x0=40,w=340,y=236;line(g,x0,y,x0+w,y,C.line2,4);[[0,'0'],[15,'15'],[30,'30'],[60,'60'],[100,'100 ms']].forEach(([v,l])=>{const X=x0+v/100*w;line(g,X,y-5,X,y+5,C.axis,1.4);if(!G.nolabel)txt(g,X,y-12,l,C.mute,9,'center',600);});
+  circ(g,x0+ms/100*w,y,6,C.gold,C.bg,2);
+  const lab=s===0?'SENSOR: CRASH ERKANNT':s===1?'GURTSTRAFFER':s===2?'AIRBAG ZÜNDET':s===3?'WEICHES ABBREMSEN':'KRAFTBEGRENZER';pill(g,320,40,lab,s===0?C.down:s===1?C.gold:C.text,1);
+  pill(g,320,66,`${deN(Math.round(ms))} ms`,C.gold,1);}
+ ,box:{was:'Airbag und Gurtstraffer arbeiten zusammen, um die Insassen bei einem Aufprall möglichst sanft abzubremsen.',h2:'So funktioniert’s',
+ erkennen:['Crashsensoren + Airbag-Steuergerät','Gurtstraffer: pyrotechnisch, strafft in Millisekunden','Airbag: in ca. 30 ms gefüllt, entleert sich sofort wieder','Front-, Seiten-, Kopf- und Knieairbags'],
+ bedeutung:'Der Gurt ist das wichtigste Sicherheitssystem. Der Airbag ist nur ein Zusatz („SRS“ = Supplemental Restraint System) und funktioniert nur mit angelegtem Gurt richtig.',
+ tipp:'Füße nie aufs Armaturenbrett legen und genug Abstand zum Lenkrad halten (ca. 25 cm). Ein auslösender Airbag ist sehr schnell und kräftig.'}});
+
+les({id:'sensorik',cat:'sicherheit',title:'Radar, Kamera & Lidar',sub:'Die Augen der Assistenzsysteme',
+ steps:S([[4600,'Assistenzsysteme brauchen „Augen“. Moderne Autos haben dafür viele unterschiedliche Sensoren.'],
+ [5200,'Radar: misst mit Funkwellen Abstand und Geschwindigkeit anderer Autos – auch bei Nebel und Dunkelheit, bis über 200 m weit.'],
+ [5200,'Kamera: erkennt Fahrspuren, Verkehrsschilder, Ampeln und Fußgänger – wie ein Auge, aber bei schlechter Sicht eingeschränkt.'],
+ [4800,'Ultraschall: misst ganz kurze Abstände von wenigen Metern – ideal zum Einparken.'],
+ [5800,'Lidar: tastet die Umgebung mit Laserstrahlen ab und erzeugt ein genaues 3D-Bild. Alle Sensoren zusammen ergeben ein sicheres Gesamtbild (Sensorfusion).']]),
+ draw(g,st){const{s,p,t}=st;const cx=80,cy=125;
+  g.fillStyle=C.road;g.fillRect(0,70,VW,110);for(let x=-((t*.08)%40);x<VW;x+=40)line(g,x,125,x+20,125,C.roadLine,2);
+  const cone=(r,ang,col,a,ox=0)=>{if(!a)return;g.save();g.globalAlpha=a*.5;g.fillStyle=col;g.beginPath();g.moveTo(cx+28+ox,cy);g.arc(cx+28+ox,cy,r,-ang,ang);g.closePath();g.fill();g.restore();};
+  cone(320,.12,C.blue,ap(st,1));cone(170,.45,C.gold,ap(st,2),-8);
+  const a3=ap(st,3);if(a3){g.save();g.globalAlpha=a3*.45;g.fillStyle=C.purple;g.beginPath();g.ellipse(cx,cy,64,38,0,0,TAU);g.fill();g.restore();}
+  const a4=ap(st,4);if(a4){g.save();g.globalAlpha=a4*.7;g.strokeStyle=C.up;g.lineWidth=1;for(let k=0;k<36;k++){const an=k*TAU/36+t*.002;const len=k%9===0?60:110;g.beginPath();g.moveTo(cx,cy-4);g.lineTo(cx+Math.cos(an)*len,cy-4+Math.sin(an)*len*.55);g.stroke();}g.restore();}
+  carTop(g,cx,cy,60,30,0,{});carTop(g,300,cy,56,28,0,{fill:C.head});
+  if(s===1){const f=(t*.002)%1;g.save();g.strokeStyle=C.blue;g.lineWidth=2;g.beginPath();g.arc(cx+28,cy,f*200,-.12,.12);g.stroke();g.restore();pill(g,300,92,'ABSTAND 70 m · −8 km/h',C.blue,1);}
+  if(s===2){pill(g,250,170,'SPUR ✓ SCHILD ✓',C.gold,1);box(g,220,180,18,18,C.bg,C.down,9);}
+  pill(g,60,30,'RADAR',C.blue,ap(st,1),'left');pill(g,140,30,'KAMERA',C.gold,ap(st,2),'left');pill(g,232,30,'ULTRASCHALL',C.purple,a3,'left');pill(g,60,220,'LIDAR',C.up,a4,'left');
+  if(s===4)pill(g,250,220,'SENSORFUSION',C.text,1);}
+ ,box:{was:'Radar, Kamera, Ultraschall und Lidar sind die „Sinne“ eines modernen Autos. Erst ihre Daten machen Assistenzsysteme möglich.',h2:'So erkennst du sie',
+ erkennen:['<b>Radar:</b> hinter Logo/Kühlergrill, misst Abstand und Tempo','<b>Kamera:</b> oben hinter der Frontscheibe','<b>Ultraschall:</b> runde Punkte in den Stoßfängern','<b>Lidar:</b> Laser-Scanner, bei neuen Modellen'],
+ bedeutung:'Jeder Sensor hat Stärken und Schwächen. Erst die Kombination (Sensorfusion) macht die Systeme zuverlässig.',
+ tipp:'Sensoren sauber halten! Schnee vor dem Radar oder eine verschmutzte Frontscheibe vor der Kamera können Assistenzsysteme abschalten.'}});
+
+les({id:'acc',cat:'sicherheit',title:'Abstandsregeltempomat (ACC)',sub:'Tempo halten – und Abstand auch',
+ steps:S([[4600,'Man stellt Wunschtempo (z. B. 130 km/h) und Wunschabstand ein.'],
+ [4600,'Ist die Straße frei, hält das Auto das Wunschtempo – wie ein normaler Tempomat.'],
+ [6000,'Fährt ein langsameres Auto voraus, erkennt das Radar es. Das Auto bremst selbstständig und hält den eingestellten Abstand.'],
+ [5600,'Faustregel für den Abstand: „halber Tacho“ in Metern – bei 100 km/h also 50 m. Das sind rund 1,8 Sekunden.'],
+ [5600,'Wird die Spur wieder frei, beschleunigt das Auto zurück auf das Wunschtempo. Im Stau oft sogar bis zum Stillstand und wieder los (Stop & Go).']]),
+ draw(g,st){const{s,p,t}=st;let v=130,lead=null,gap=0;
+  if(s===2){v=lerp(130,100,ease(p));lead=lerp(340,250,ease(clamp(p*1.4)));}if(s===3){v=100;lead=250;}if(s===4){v=lerp(100,130,ease(clamp((p-.3)*1.6)));lead=p<.3?250:250+(p-.3)*500;}
+  g.fillStyle=C.road;g.fillRect(0,80,VW,100);for(let x=-((t*v*.0007)%40);x<VW;x+=40){line(g,x,130,x+20,130,C.roadLine,2);}
+  const lane=s===4&&p>.3?lerp(155,105,ease(clamp((p-.3)*3))):155;
+  carTop(g,90,155,60,30,0,{});
+  if(lead!=null&&lead<420){carTop(g,lead,lane,56,28,0,{fill:C.head});
+   if(lane>140){arrow(g,124,155,lead-32,155,C.gold,1.6,1,true);pill(g,(124+lead-32)/2,186,s===3?'50 m ≈ 1,8 s':'ABSTAND',C.gold,1);}
+   pill(g,lead,lane-28,'100 km/h',C.text,1);
+   const f=(t*.002)%1;g.save();g.strokeStyle=hexA(C.blue,.8);g.lineWidth=2;g.beginPath();g.arc(120,155,f*(lead-130),-.15,.15);g.stroke();g.restore();}
+  pill(g,90,124,`${deN(Math.round(v))} km/h`,v<128?C.orange:C.up,1);
+  pill(g,8,30,'WUNSCH: 130 km/h',C.up,1,'left');pill(g,8,56,'ABSTAND: 2 BALKEN',C.gold,1,'left');
+  const lab=s===1?'FREIE FAHRT':s===2?'RADAR ERKENNT · BREMST':s===3?'HALBER TACHO':s===4?(p>.4?'SPUR FREI · BESCHLEUNIGT':'…'):'';if(lab)pill(g,392,30,lab,C.text,1,'right');
+  if(s===4)pill(g,392,220,'STOP & GO IM STAU',C.blue,1,'right');}
+ ,box:{was:'Der Abstandsregeltempomat (ACC, Adaptive Cruise Control) hält nicht nur das Tempo, sondern passt es automatisch an das vorausfahrende Fahrzeug an.',h2:'So funktioniert’s',
+ erkennen:['Radar (und Kamera) messen Abstand und Tempo','Auto gibt Gas und bremst selbst','Abstand in Stufen einstellbar','Stop & Go: bis zum Stillstand im Stau'],
+ bedeutung:'ACC macht lange Autobahnfahrten deutlich entspannter und hält gleichmäßigere Abstände als viele Menschen. Der Fahrer bleibt aber verantwortlich.',
+ tipp:'Bei stehenden Hindernissen (Stauende, liegengebliebenes Auto) reagiert ACC nicht immer zuverlässig. Immer vorausschauend mitdenken!'}});
+
+les({id:'spurhalte',cat:'sicherheit',title:'Spurhalteassistent',sub:'Kamera erkennt die Linien',
+ steps:S([[4600,'Eine Kamera hinter der Frontscheibe erkennt die Fahrbahnmarkierungen links und rechts.'],
+ [5200,'Driftet das Auto ohne Blinker auf eine Linie zu, warnt der Spurverlassenswarner – z. B. durch Vibrieren im Lenkrad.'],
+ [5600,'Der Spurhalteassistent lenkt sogar sanft gegen und bringt das Auto zurück in die Mitte der Spur.'],
+ [5200,'Wichtig: Das sind Assistenzsysteme. Die Hände bleiben am Lenkrad, der Fahrer ist immer verantwortlich.']]),
+ draw(g,st){const{s,p,t}=st;g.fillStyle=C.road;g.fillRect(0,50,VW,160);
+  const top=78,bot=182;const off=(t*.12)%40;for(let x=-off;x<VW;x+=40)line(g,x,130,x+20,130,C.roadLine,2.5);line(g,0,top,VW,top,C.roadLine,3);line(g,0,bot,VW,bot,C.roadLine,3);
+  const a0=ap(st,0);if(a0){g.save();g.globalAlpha=a0;line(g,120,top,VW,top,C.up,4);line(g,120,bot,VW,bot,C.up,4);g.restore();}
+  let y=155,ang=0,warn=false,corr=false;
+  if(s===1){y=lerp(155,176,ease(p));ang=.08;warn=p>.6;}if(s===2){y=176-ease(clamp((p-.2)*1.5))*21;ang=p<.2?.08:-.08*(1-ease(clamp((p-.2)*1.5)));corr=p>.15;}if(s===3)y=155;
+  carTop(g,120,y,60,30,ang,{});
+  if(warn){g.save();g.globalAlpha=Math.sin(t*.03)>0?1:.3;line(g,0,bot,VW,bot,C.down,5);g.restore();pill(g,280,226,'LENKRAD VIBRIERT',C.down,1);}
+  if(corr){arrow(g,170,y+8,198,y-14,C.up,2.6);pill(g,280,226,'LENKT SANFT ZURÜCK',C.up,1);}
+  pill(g,120,30,'KAMERA ERKENNT LINIEN',C.up,a0*(s===0?1:0));
+  if(s===3)pill(g,200,30,'HÄNDE AM LENKRAD!',C.gold,1);}
+ ,box:{was:'Spurhalteassistenten erkennen per Kamera die Fahrbahnmarkierungen und verhindern, dass das Auto unbeabsichtigt die Spur verlässt.',h2:'So funktioniert’s',
+ erkennen:['Spurverlassenswarner: warnt nur (Vibration, Ton)','Spurhalteassistent: lenkt aktiv gegen','Mit Blinker: kein Eingriff','Funktioniert nur bei gut sichtbaren Linien'],
+ bedeutung:'Viele schwere Unfälle entstehen durch kurze Unaufmerksamkeit oder Müdigkeit. Der Assistent kann hier Leben retten – ersetzt aber keine Pause.',
+ tipp:'In Baustellen mit gelben und weißen Linien können Assistenten verwirrt sein. Dort besonders aufmerksam fahren.'}});
+
+/* ---------- Quiz Paket 2 ---------- */
+const TQ2=[
+ {q:'Wie viel Kraft entsteht bei 40 bar auf einem Bremskolben mit 25 cm²? (1 bar = 10 N/cm²)',a:['10.000 N','1.000 N','400 N','100.000 N'],e:'40 × 10 N/cm² × 25 cm² = 10.000 N.',l:'bremse'},
+ {q:'Warum sollte Bremsflüssigkeit etwa alle 2 Jahre gewechselt werden?',a:['Sie zieht Wasser an und kann dann Dampfblasen bilden','Sie verdunstet komplett','Sie wird zu dick','Sie wird elektrisch leitend'],e:'Wasser senkt den Siedepunkt – bei heißen Bremsen entstehen Dampfblasen, das Pedal fällt durch.',l:'bremse'},
+ {q:'Was verhindert ABS?',a:['Dass die Räder beim Bremsen blockieren','Dass die Räder durchdrehen','Dass das Auto zu schnell fährt','Dass die Bremsen heiß werden'],e:'Ein rollendes Rad bleibt lenkbar – ein blockiertes rutscht.',l:'abs'},
+ {q:'Das Heck bricht in der Kurve aus (Übersteuern). Welches Rad bremst ESP?',a:['Das kurvenäußere Vorderrad','Das kurveninnere Hinterrad','Alle vier gleich','Gar keins'],e:'Das erzeugt ein Gegen-Drehmoment, das das Auto wieder einfängt.',l:'esp'},
+ {q:'Wozu dient der Stoßdämpfer?',a:['Er stoppt das Nachschwingen der Feder','Er trägt das Gewicht des Autos','Er lenkt die Räder','Er bremst das Auto'],e:'Die Feder trägt und federt, der Dämpfer wandelt die Schwingung in Wärme um.',l:'federung'},
+ {q:'Was bedeutet die „45“ im Reifencode 225/45 R18?',a:['Die Flankenhöhe in % der Breite','Die Breite in mm','Den Felgendurchmesser','Die Höchstgeschwindigkeit'],e:'225 × 0,45 ≈ 101 mm Flankenhöhe.',l:'reifen'},
+ {q:'Wie viel Profiltiefe ist in Deutschland mindestens vorgeschrieben?',a:['1,6 mm','3 mm','4 mm','0,8 mm'],e:'Gesetzlich 1,6 mm – empfohlen sind 3 mm (Sommer) und 4 mm (Winter).',l:'reifen'},
+ {q:'Was macht das Ritzel bei der Zahnstangenlenkung?',a:['Es schiebt die Zahnstange nach links oder rechts','Es bremst die Vorderräder','Es misst die Geschwindigkeit','Es kühlt die Lenkung'],e:'Lenkrad → Ritzel → Zahnstange → Spurstangen → Räder.',l:'lenkung'},
+ {q:'Welche Spannung liefert die Lichtmaschine ungefähr?',a:['ca. 14 V','ca. 6 V','ca. 230 V','ca. 400 V'],e:'Etwas mehr als die 12 V der Batterie, damit sie geladen werden kann.',l:'lima'},
+ {q:'Ein 120-W-Verbraucher am 12-V-Bordnetz – welcher Strom fließt?',a:['10 A','1.440 A','0,1 A','108 A'],e:'I = P ÷ U = 120 W ÷ 12 V = 10 A.',l:'bordnetz'},
+ {q:'Was passiert, wenn eine Sicherung „durchbrennt“?',a:['Sie unterbricht den Stromkreis, um das Kabel zu schützen','Sie lädt die Batterie','Sie erhöht die Spannung','Sie startet den Motor'],e:'Bei zu viel Strom schmilzt ihr Draht – so wird ein Kabelbrand verhindert.',l:'bordnetz'},
+ {q:'Wie viele Leitungen hat ein CAN-Bus?',a:['Zwei','Eine','Acht','Hunderte'],e:'CAN-High und CAN-Low, meist verdrillt.',l:'canbus'},
+ {q:'Was misst die Lambdasonde?',a:['Den Restsauerstoff im Abgas','Die Öltemperatur','Den Reifendruck','Die Drehzahl'],e:'Damit regelt das Steuergerät das Gemisch auf Lambda = 1.',l:'sensoren'},
+ {q:'Was bedeutet der Fehlercode P0301?',a:['Zündaussetzer in Zylinder 1','Batterie leer','Reifendruck zu niedrig','Airbag defekt'],e:'P = Antrieb, 0 = genormt, 3 = Zündung, 01 = Zylinder 1.',l:'obd'},
+ {q:'Was kann passieren, wenn der Zahnriemen reißt?',a:['Kolben treffen auf Ventile – Motorschaden','Gar nichts','Das Licht geht aus','Die Bremse fällt aus'],e:'Die Nockenwelle bleibt stehen, Ventile bleiben offen, die Kolben laufen weiter.',l:'zahnriemen'},
+ {q:'Welche Zündfolge hat ein typischer Vierzylinder?',a:['1-3-4-2','1-2-3-4','4-3-2-1','1-4-2-3'],e:'So verteilen sich die Kräfte gleichmäßig auf die Kurbelwelle.',l:'zuendfolge'},
+ {q:'Ein Sechszylinder-Viertakter: Alle wie viel Grad Kurbelwinkel zündet ein Zylinder?',a:['120°','180°','90°','360°'],e:'720° ÷ 6 Zylinder = 120°.',l:'zuendfolge'},
+ {q:'Warum wird kurz VOR dem oberen Totpunkt gezündet?',a:['Weil die Verbrennung etwas Zeit braucht','Weil der Kolben dann stillsteht','Damit der Motor leiser ist','Um Öl zu sparen'],e:'Der höchste Druck soll kurz nach OT entstehen.',l:'zuendfolge'},
+ {q:'Was verändert die BMW Valvetronic?',a:['Den Hub des Einlassventils','Die Zündfolge','Die Übersetzung im Getriebe','Den Reifendruck'],e:'Stufenlos von ca. 0,2 bis knapp 10 mm – statt Drosselklappe.',l:'vanos'},
+ {q:'Welche Form hat der Läufer im Wankelmotor?',a:['Abgerundetes Dreieck','Kreis','Quadrat','Stern'],e:'Er kreist in einem ovalen Gehäuse und bildet drei Kammern.',l:'wankel'},
+ {q:'Wie hoch ist der Wirkungsgrad eines E-Antriebs (Akku bis Rad) ungefähr?',a:['85–90 %','20–30 %','50 %','100 %'],e:'Ein Verbrenner schafft im Alltag nur 20–30 %, im Bestfall gut 40 %.',l:'wirkungsgrad'},
+ {q:'Was gibt die Oktanzahl an?',a:['Wie klopffest ein Benzin ist','Wie viel Energie im Benzin steckt','Wie viel CO₂ entsteht','Den Preis pro Liter'],e:'Höhere Oktanzahl = verträgt mehr Druck, ohne sich selbst zu entzünden.',l:'klopfen'},
+ {q:'Aus 1 kWh Strom macht eine Wärmepumpe etwa …',a:['2–3 kWh Wärme','1 kWh Wärme','0,5 kWh Wärme','10 kWh Wärme'],e:'Sie holt zusätzlich Wärme aus der Außenluft.',l:'waermepumpe'},
+ {q:'In welchem Temperaturbereich fühlt sich ein Akku am wohlsten?',a:['ca. 20–40 °C','ca. −20–0 °C','ca. 60–80 °C','ca. 100 °C'],e:'Zu kalt lädt er langsam, zu heiß altert er schneller.',l:'thermo'},
+ {q:'200 kW Ladeleistung bei 800 V – welcher Strom fließt?',a:['250 A','500 A','160 A','1.000 A'],e:'I = P ÷ U = 200.000 W ÷ 800 V = 250 A.',l:'800volt'},
+ {q:'Was kommt bei einem Brennstoffzellenauto aus dem „Auspuff“?',a:['Wasser','CO₂','Ruß','Stickoxide'],e:'Wasserstoff + Sauerstoff → Strom + Wasser.',l:'brennstoffzelle'},
+ {q:'Welche Akku-Garantie geben Hersteller meist?',a:['8 Jahre / 160.000 km auf mind. 70 %','2 Jahre auf 100 %','1 Jahr / 10.000 km','Keine'],e:'Viele Akkus halten in der Praxis deutlich länger.',l:'alterung'},
+ {q:'Ein Aufprall mit 50 km/h entspricht einem Sturz aus etwa …',a:['10 m Höhe','1 m Höhe','50 m Höhe','100 m Höhe'],e:'h = v² ÷ (2 · g) = (13,9 m/s)² ÷ 19,6 ≈ 10 m.',l:'knautschzone'},
+ {q:'Wie schnell ist ein Fahrerairbag ungefähr gefüllt?',a:['in ca. 30 Millisekunden','in ca. 1 Sekunde','in ca. 3 Sekunden','in ca. 0,3 Millisekunden'],e:'Schneller als ein Wimpernschlag (über 100 ms).',l:'airbag'},
+ {q:'Welcher Sensor funktioniert auch bei Nebel und Dunkelheit gut?',a:['Radar','Kamera','Lidar','Keiner'],e:'Radar arbeitet mit Funkwellen und misst Abstand und Geschwindigkeit.',l:'sensorik'},
+ {q:'Faustregel „halber Tacho“: Welcher Abstand bei 120 km/h?',a:['60 m','120 m','30 m','12 m'],e:'Halber Tacho in Metern: 120 ÷ 2 = 60 m.',l:'acc'},
+ {q:'Was macht ein Spurhalteassistent, wenn man den Blinker setzt?',a:['Er greift nicht ein','Er bremst','Er lenkt stärker gegen','Er schaltet das Licht an'],e:'Mit Blinker wird ein Spurwechsel als gewollt erkannt.',l:'spurhalte'}
+];
+const PQ2=[
+ {l:'bremse',s:2,p:.8,q:'Welches Bauteil ist rechts zu sehen?',a:['Scheibenbremse mit Bremssattel','Kupplung','Turbolader','Lichtmaschine'],e:'Bremssattel mit Belägen an der Bremsscheibe.'},
+ {l:'wankel',s:2,p:.5,q:'Was für ein Motor ist das?',a:['Wankelmotor','Boxermotor','Elektromotor','V-Motor'],e:'Dreieckiger Läufer in ovalem Gehäuse – der Kreiskolbenmotor.'},
+ {l:'federung',s:3,p:.6,q:'Was zeigt die grüne Kurve rechts?',a:['Die Bewegung mit Stoßdämpfer','Die Bewegung ohne Dämpfer','Den Reifendruck','Die Geschwindigkeit'],e:'Mit Dämpfer beruhigt sich die Karosserie nach ein bis zwei Schwingungen.'},
+ {l:'canbus',s:2,p:.4,q:'Was ist hier zu sehen?',a:['Ein Datennetz (CAN-Bus) mit Steuergeräten','Ein Kühlkreislauf','Ein Getriebe','Eine Bremsanlage'],e:'Alle Steuergeräte hängen an zwei gemeinsamen Leitungen.'},
+ {l:'waermepumpe',s:3,p:.5,q:'Welches System ist hier zu sehen?',a:['Wärmepumpe','Turbolader','Einspritzanlage','Abgasreinigung'],e:'Verdampfer draußen, Verdichter, Kondensator innen.'},
+ {l:'knautschzone',s:1,p:.9,q:'Was verformt sich hier gezielt?',a:['Die Knautschzone','Die Fahrgastzelle','Der Akku','Das Lenkrad'],e:'Die Front faltet sich und schluckt Energie, die Fahrgastzelle bleibt stabil.'}
+];
+
+/* ============ Reihenfolge nach Bereichen ============ */
+{const ord=Object.keys(CATS);LESSONS.sort((a,b)=>ord.indexOf(a.cat)-ord.indexOf(b.cat));}
 /* ============ Player ============ */
 const P={L:null,t:0,playing:false,speed:1,cv:null,ctx:null,W:0,H:0,dirty:true,last:0,stepIdx:-1,tl:null};
 function buildTL(L){let t=0;const steps=L.steps.map(s=>{const o={t,d:s.d,text:s.text};t+=s.d;return o;});return{steps,total:t};}
@@ -1192,16 +1934,22 @@ function markSeen(id){if(seen[id])return;seen[id]=1;try{localStorage.setItem(KEY
 function updProg(){const n=LESSONS.filter(l=>seen[l.id]).length;document.getElementById('progtxt').textContent=`${n} / ${LESSONS.length}`;document.getElementById('progbar').style.width=(n/LESSONS.length*100)+'%';}
 
 const CATINFO={
- motor:{d:'Viertakt, Kurbeltrieb, Ventile, Otto & Diesel, Hubraum und Kühlung.',acc:'var(--orange)',hex:'#ff9f43'},
+ motor:{d:'Viertakt, Kurbeltrieb, Ventile, Otto & Diesel, Zahnriemen, Zündung, Wankel und mehr.',acc:'var(--orange)',hex:'#ff9f43'},
  getriebe:{d:'Übersetzung, Kupplung, Schalt- und Automatikgetriebe, Differenzial und Allrad.',acc:'var(--blue)',hex:'#4c9aff'},
  turbo:{d:'Turbolader, Turboloch, Einspritzung und Abgasreinigung.',acc:'var(--down)',hex:'#f0605d'},
- elektro:{d:'Aufbau, E-Motor, Leistungselektronik, Rekuperation und Hybride.',acc:'var(--purple)',hex:'#b388ff'},
- akku:{d:'Akkuzelle, Akkupack, kW und kWh, Laden und Reichweite.',acc:'var(--up)',hex:'#1fcf8f'}};
+ elektro:{d:'Aufbau, E-Motor, Leistungselektronik, Rekuperation, Hybride, Wärmepumpe und Wasserstoff.',acc:'var(--purple)',hex:'#b388ff'},
+ akku:{d:'Akkuzelle, Akkupack, kW und kWh, Laden, Reichweite, 800 Volt und Alterung.',acc:'var(--up)',hex:'#1fcf8f'},
+ fahrwerk:{d:'Bremsen, ABS, ESP, Federung, Lenkung und Reifen.',acc:'var(--aqua)',hex:'#22d3ee'},
+ elektrik:{d:'Anlasser, Lichtmaschine, Bordnetz, CAN-Bus, Sensoren und Fehlerspeicher.',acc:'var(--pink)',hex:'#ff6fae'},
+ sicherheit:{d:'Knautschzone, Airbag, Radar & Kamera, Abstandstempomat und Spurhalten.',acc:'var(--lime)',hex:'#a3e635'}};
 const SVGI={
  motor:'<rect x="18" y="10" width="28" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="3"/><rect x="22" y="22" width="20" height="10" rx="2" fill="currentColor"/><line x1="32" y1="32" x2="38" y2="48" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="50" r="7" fill="none" stroke="currentColor" stroke-width="3"/><line x1="26" y1="4" x2="26" y2="12" stroke="currentColor" stroke-width="3"/><line x1="38" y1="4" x2="38" y2="12" stroke="currentColor" stroke-width="3"/>',
  getriebe:'<g fill="none" stroke="currentColor" stroke-width="3"><circle cx="24" cy="36" r="13"/><circle cx="24" cy="36" r="4"/><circle cx="45" cy="20" r="9"/><circle cx="45" cy="20" r="3"/></g><g stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="24" y1="18" x2="24" y2="21"/><line x1="24" y1="51" x2="24" y2="54"/><line x1="6" y1="36" x2="9" y2="36"/><line x1="39" y1="36" x2="42" y2="36"/><line x1="11" y1="23" x2="13" y2="25"/><line x1="11" y1="49" x2="13" y2="47"/><line x1="45" y1="7" x2="45" y2="9"/><line x1="58" y1="20" x2="56" y2="20"/></g>',
  turbo:'<path d="M32 10a22 22 0 1 1-20 13" fill="none" stroke="currentColor" stroke-width="3"/><g stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M32 32 L32 18"/><path d="M32 32 L44 38"/><path d="M32 32 L20 38"/></g><circle cx="32" cy="32" r="4" fill="currentColor"/><path d="M4 18h12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>',
  elektro:'<path d="M36 4 L16 36 H30 L26 60 L48 26 H34 Z" fill="currentColor" opacity=".9"/>',
+ fahrwerk:'<g fill="none" stroke="currentColor" stroke-width="3"><circle cx="32" cy="32" r="24"/><circle cx="32" cy="32" r="9"/></g><g stroke="currentColor" stroke-width="3"><line x1="32" y1="8" x2="32" y2="23"/><line x1="32" y1="41" x2="32" y2="56"/><line x1="8" y1="32" x2="23" y2="32"/><line x1="41" y1="32" x2="56" y2="32"/></g><path d="M44 14 A22 22 0 0 1 52 26" fill="none" stroke="currentColor" stroke-width="7" opacity=".6"/>',
+ elektrik:'<rect x="12" y="12" width="40" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="3"/><rect x="22" y="22" width="20" height="20" rx="3" fill="currentColor" opacity=".8"/><g stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="22" y1="4" x2="22" y2="12"/><line x1="32" y1="4" x2="32" y2="12"/><line x1="42" y1="4" x2="42" y2="12"/><line x1="22" y1="52" x2="22" y2="60"/><line x1="32" y1="52" x2="32" y2="60"/><line x1="42" y1="52" x2="42" y2="60"/><line x1="4" y1="32" x2="12" y2="32"/><line x1="52" y1="32" x2="60" y2="32"/></g>',
+ sicherheit:'<path d="M32 4 L54 12 V30 C54 46 44 56 32 60 C20 56 10 46 10 30 V12 Z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M22 32 L29 39 L43 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
  akku:'<rect x="10" y="16" width="40" height="32" rx="5" fill="none" stroke="currentColor" stroke-width="3"/><rect x="50" y="26" width="5" height="12" rx="1.5" fill="currentColor"/><rect x="15" y="21" width="9" height="22" rx="2" fill="currentColor"/><rect x="27" y="21" width="9" height="22" rx="2" fill="currentColor" opacity=".7"/><rect x="39" y="21" width="6" height="22" rx="2" fill="currentColor" opacity=".35"/>'};
 const catIcon=(ck,s=58)=>`<svg width="${s}" height="${s}" viewBox="0 0 64 64" style="color:${CATINFO[ck].acc}">${SVGI[ck]}</svg>`;
 
@@ -1269,7 +2017,7 @@ function showHome(){
   return `<button class="big" data-h="kat-${ck}" style="--acc:${ci.acc};--glow:${hexA(ci.hex,.16)}"><div class="bi">${catIcon(ck)}</div><h2>${CATS[ck]}</h2><p>${ci.d}</p><div class="ft"><span>${n} LEKTIONEN</span><div class="pb"><i style="width:${sn/n*100}%"></i></div><span>${sn}/${n}</span><span class="go">›</span></div></button>`;}).join('');
  const quiz=`<button class="big" data-h="quiz" style="--acc:var(--gold);--glow:rgba(245,197,66,.14)"><div class="bi" style="font-size:46px;line-height:1">🎯</div><h2>Quiz</h2><p>Teste dein Wissen: 10 zufällige Fragen mit Bildern und Rechenaufgaben.</p><div class="ft"><span>${best?`BESTWERT ${best}/10`:'NOCH NICHT GESPIELT'}</span><span style="flex:1"></span><span class="go">›</span></div></button>`;
  view.innerHTML=`<div class="home"><div class="kicker">Willkommen</div><h1>So funktioniert dein Auto</h1>
- <p class="lead">Jede Lektion ist ein kleines Video: Motor, Getriebe, Turbo, E-Antrieb und Akku bauen sich Schritt für Schritt auf und werden erklärt.</p>
+ <p class="lead">Jede Lektion ist ein kleines Video: Motor, Getriebe, Turbo, E-Antrieb, Akku, Fahrwerk, Elektrik und Sicherheit bauen sich Schritt für Schritt auf und werden erklärt.</p>
  <div class="bigtiles">${tiles}${quiz}</div></div>`;
  view.querySelectorAll('.big').forEach(t=>t.onclick=()=>location.hash=t.dataset.h);
  renderList();window.scrollTo(0,0);
@@ -1344,6 +2092,7 @@ const PQ=[
  {l:'kupplung',s:1,p:.5,q:'Welches Bauteil ist hier zu sehen?',a:['Kupplung','Bremse','Turbolader','Planetengetriebe'],e:'Schwungrad, Kupplungsscheibe und Druckplatte mit Federn.'},
  {l:'zelle',s:2,p:.6,q:'Was passiert hier gerade?',a:['Die Zelle wird geladen','Die Zelle wird entladen','Die Zelle ist kaputt','Die Zelle wird gekühlt'],e:'Die Lithium-Ionen wandern zur Anode – das ist Laden.'}
 ];
+TQ.push(...TQ2);PQ.push(...PQ2);
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 let Q=null;
 function startQuiz(){
